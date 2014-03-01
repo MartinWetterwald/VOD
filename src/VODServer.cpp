@@ -1,14 +1,24 @@
 #include "VODServer.hpp"
 
-void VODServer::start ( )
+#include <SocketIOEvent/Notifier.hpp>
+
+VODServer::VODServer ( )
 {
-    httpServer = new HTTPServer ( );
+    mpHttpServer = new HTTPServer ( );
+}
+
+bool VODServer::start ( uint16_t port, NetFlux::SocketIOEvent::Notifier * notif )
+{
+    if ( ! mpHttpServer -> listen ( port ) )
+    {
+        return false;
+    }
+
+    notif -> subscribe ( mpHttpServer );
+    return true;
 }
 
 VODServer::~VODServer ( )
 {
-    if ( httpServer )
-    {
-        delete httpServer;
-    }
+    delete mpHttpServer;
 }
