@@ -4,16 +4,25 @@
 
 VODServer::VODServer ( )
 {
-    mpHttpServer = new HTTPServer ( );
+    mpNotifier = new NetFlux::SocketIOEvent::Notifier;
+    mpHttpServer = new HTTPServer;
 }
 
-bool VODServer::start ( uint16_t port, NetFlux::SocketIOEvent::Notifier * notif )
+VODServer::~VODServer ( )
+{
+    delete mpHttpServer;
+    delete mpNotifier;
+}
+
+bool VODServer::start ( uint16_t port )
 {
     if ( ! mpHttpServer -> listen ( port ) )
     {
         return false;
     }
 
-    notif -> subscribe ( mpHttpServer );
+    mpNotifier -> subscribe ( mpHttpServer );
+
+    mpNotifier -> startNotify ( );
     return true;
 }

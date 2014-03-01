@@ -13,7 +13,6 @@
 static void __attribute__ ( ( noreturn ) ) intHandler ( int sig );
 #endif
 
-static NetFlux::SocketIOEvent::Notifier * notifier = 0;
 static VODServer * vodServer = 0;
 
 int main ( )
@@ -25,17 +24,14 @@ int main ( )
     sigaction ( SIGINT, &act, 0 );
 #endif
 
-    notifier = new NetFlux::SocketIOEvent::Notifier;
-
     vodServer = new VODServer;
-    if ( ! vodServer -> start ( 8080, notifier ) )
+    if ( ! vodServer -> start ( 8080 ) )
     {
         std::cout << "An error occured while starting the VOD Server."  << std::endl;
         return EXIT_FAILURE;
-
     }
-    notifier -> startNotify ( );
 
+    delete vodServer;
     return EXIT_SUCCESS;
 }
 
@@ -46,12 +42,6 @@ static void intHandler ( int )
     if ( vodServer )
     {
         delete vodServer;
-    }
-
-    if ( notifier )
-    {
-        notifier -> stopNotify ( );
-        delete notifier;
     }
     exit ( EXIT_SUCCESS );
 }

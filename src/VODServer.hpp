@@ -7,12 +7,13 @@ class VODServer
 {
 public:
     VODServer ( );
+    virtual ~VODServer ( );
 
-    bool start ( uint16_t port, NetFlux::SocketIOEvent::Notifier * notifier );
+    bool start ( uint16_t port );
 
-protected:
+private:
+    NetFlux::SocketIOEvent::Notifier * mpNotifier;
     HTTPServer * mpHttpServer;
-    NetFlux::SocketIOEvent::Notifier * notifier;
 };
 
 #endif
