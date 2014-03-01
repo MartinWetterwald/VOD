@@ -13,6 +13,8 @@ void HTTPServer::exceptEventAction ( )
 {
 }
 
-void HTTPServer::chooseSubscription ( NetFlux::SocketIOEvent::Event & )
+void HTTPServer::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
 {
+    event.setRead ( );
+    event.setExcept ( );
 }

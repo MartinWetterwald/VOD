@@ -17,8 +17,3 @@ bool VODServer::start ( uint16_t port, NetFlux::SocketIOEvent::Notifier * notif 
     notif -> subscribe ( mpHttpServer );
     return true;
 }
-
-VODServer::~VODServer ( )
-{
-    delete mpHttpServer;
-}
