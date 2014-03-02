@@ -6,11 +6,11 @@
 
 #include "CatalogRequest.hpp"
 
-class HTTPServer : public NetFlux::Tcp::Server
+class HttpServer : public NetFlux::Tcp::Server
 {
 public:
-    HTTPServer ( ) = default;
-    virtual ~HTTPServer ( );
+    HttpServer ( ) = default;
+    virtual ~HttpServer ( );
 
 protected:
     virtual void readEventAction ( );
@@ -19,10 +19,12 @@ protected:
 
     virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & );
 
-    friend class HttpRequest;
-
 private:
     std::unordered_set <HttpRequest *> mrequests;
+
+
+
+    friend class HttpRequest;
 };
 
 #endif

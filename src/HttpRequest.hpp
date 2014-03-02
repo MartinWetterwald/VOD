@@ -3,7 +3,7 @@
 
 #include <Tcp/ServerStream.hpp>
 
-class HTTPServer;
+class HttpServer;
 
 class HttpRequest : public NetFlux::Tcp::ServerStream
 {
@@ -15,13 +15,15 @@ protected:
     virtual void readEventAction ( );
     virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & event );
 
-    friend class HTTPServer;
-
 private:
     bool reading;
-    HTTPServer * mpserver;
+    HttpServer * mpserver;
 
     HttpRequest ( ) = delete;
+
+
+
+    friend class HttpServer;
 };
 
 #endif

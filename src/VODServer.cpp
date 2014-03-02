@@ -5,7 +5,7 @@
 VODServer::VODServer ( )
 {
     mpNotifier = new NetFlux::SocketIOEvent::Notifier;
-    mpHttpServer = new HTTPServer;
+    mpHttpServer = new HttpServer;
 }
 
 VODServer::~VODServer ( )

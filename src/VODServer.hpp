@@ -1,7 +1,7 @@
 #ifndef _VOD_SERVER_HPP_
 #define _VOD_SERVER_HPP_
 
-#include "HTTPServer.hpp"
+#include "HttpServer.hpp"
 
 class VODServer
 {
@@ -13,7 +13,7 @@ public:
 
 private:
     NetFlux::SocketIOEvent::Notifier * mpNotifier;
-    HTTPServer * mpHttpServer;
+    HttpServer * mpHttpServer;
 };
 
 #endif

@@ -1,6 +1,6 @@
-#include "HTTPServer.hpp"
+#include "HttpServer.hpp"
 
-HTTPServer::~HTTPServer ( )
+HttpServer::~HttpServer ( )
 {
     for ( const auto & prequest : mrequests )
     {
@@ -9,7 +9,7 @@ HTTPServer::~HTTPServer ( )
     }
 }
 
-void HTTPServer::readEventAction ( )
+void HttpServer::readEventAction ( )
 {
     CatalogRequest * request = accept <CatalogRequest> ( );
     if ( request )
@@ -20,10 +20,10 @@ void HTTPServer::readEventAction ( )
     }
 }
 
-void HTTPServer::writeEventAction ( ) { }
-void HTTPServer::exceptEventAction ( ) { }
+void HttpServer::writeEventAction ( ) { }
+void HttpServer::exceptEventAction ( ) { }
 
-void HTTPServer::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
+void HttpServer::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
 {
     event.setRead ( );
 }
