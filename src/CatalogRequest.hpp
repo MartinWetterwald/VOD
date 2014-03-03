@@ -16,6 +16,8 @@ protected:
     virtual void writeEventAction ( );
     virtual void exceptEventAction ( );
 
+    void toString ( std::ostream & os ) const;
+
     HttpServer * mpserver;
     uint32_t mcursor;
 

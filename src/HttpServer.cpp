@@ -1,4 +1,5 @@
 #include "HttpServer.hpp"
+#include <sstream>
 
 HttpServer::~HttpServer ( )
 {
@@ -8,6 +9,23 @@ HttpServer::~HttpServer ( )
         delete prequest;
     }
 }
+
+void HttpServer::generateCatalog ( )
+{
+    std::stringstream catalog;
+    catalog << "HTTP/1.1 200 OK\r\n";
+    catalog << "Content-Type: text/plain; charset=utf-8\r\n";
+    catalog << "Content-Length: ";
+
+    std::stringstream body;
+
+    catalog << body.str ( ).length ( ) << "\r\n";
+    catalog << "\r\n";
+    catalog << body.str ( );
+
+    mcatalog = catalog.str ( );
+}
+
 
 void HttpServer::readEventAction ( )
 {

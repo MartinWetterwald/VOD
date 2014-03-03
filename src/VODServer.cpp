@@ -17,6 +17,8 @@ VODServer::~VODServer ( )
 
 bool VODServer::start ( uint16_t port )
 {
+    mpHttpServer -> generateCatalog ( );
+
     if ( ! mpHttpServer -> listen ( port ) )
     {
         return false;
