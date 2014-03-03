@@ -15,8 +15,8 @@ void CatalogRequest::writeEventAction ( )
         return;
     }
 
-    // Send response here
-    std::cout << * this << " : Todo" << std::endl;
+    // TODO: call answer
+    std::cout << * this << " : Catalog sent." << std::endl;
     delete this;
 }
 
