@@ -15,11 +15,13 @@ protected:
     virtual void readEventAction ( );
     virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & event );
 
-private:
     bool reading;
     HttpServer * mpserver;
 
+private:
     HttpRequest ( ) = delete;
+
+    uint8_t endRequest;
 
 
 
