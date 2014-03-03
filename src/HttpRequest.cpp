@@ -9,7 +9,7 @@ HttpRequest::HttpRequest ( int sock, const NetFlux::Net::InetAddress & address )
     mpserver ( nullptr ),
     endRequest ( 0 )
 {
-    std::cout << "[HTTP] Client accepted" << std::endl;
+    std::cout << * this << " : connection established" << std::endl;
 }
 
 HttpRequest::~HttpRequest ( )
@@ -24,7 +24,7 @@ void HttpRequest::readEventAction ( )
 {
     if ( ! reading )
     {
-        std::cout << "[HTTP] Client talked during response: killed" << std::endl;
+        std::cout << * this << " : talked during response -> killed" << std::endl;
         delete this;
         return;
     }
@@ -34,19 +34,19 @@ void HttpRequest::readEventAction ( )
 
     if ( ret == -1 )
     {
-        std::cout << "[HTTP] Client receive error: killed" << std::endl;
+        std::cout << * this << " : receive error -> killed" << std::endl;
         delete this;
         return;
     }
 
     if ( ret == 0 )
     {
-        std::cout << "[HTTP] Client closed connection" << std::endl;
+        std::cout << * this << " : client closed connection" << std::endl;
         delete this;
         return;
     }
 
-    std::cout << "[HTTP] Got " << ret << " bytes from client" << std::endl;
+    std::cout << * this << " : got " << ret << " bytes from him" << std::endl;
 
     ssize_t pos = 0;
     for ( char * cursor = buffer ; pos < ret ; ++cursor, ++pos )
@@ -79,4 +79,10 @@ void HttpRequest::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
     }
 
     event.setWrite ( );
+}
+
+void HttpRequest::toString ( std::ostream & os ) const
+{
+    os << "HTTP Request socket ";
+    NetFlux::Tcp::ServerStream::toString ( os );
 }

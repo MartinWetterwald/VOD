@@ -16,11 +16,12 @@ void CatalogRequest::writeEventAction ( )
     }
 
     // Send response here
+    std::cout << * this << " : Todo" << std::endl;
     delete this;
 }
 
 void CatalogRequest::exceptEventAction ( )
 {
-    std::cout << "[HTTP] Unexpected client exception: killed" << std::endl;
+    std::cout << * this << " : unexpected exception -> killed" << std::endl;
     delete this;
 }

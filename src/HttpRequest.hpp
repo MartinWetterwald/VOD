@@ -11,12 +11,16 @@ public:
     HttpRequest ( int sock, const NetFlux::Net::InetAddress & address );
     virtual ~HttpRequest ( );
 
+    virtual void toString ( std::ostream & os ) const;
+
+
 protected:
     virtual void readEventAction ( );
     virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & event );
 
     bool reading;
     HttpServer * mpserver;
+
 
 private:
     HttpRequest ( ) = delete;

@@ -1,6 +1,7 @@
 #include "VODServer.hpp"
 
 #include <SocketIOEvent/Notifier.hpp>
+#include <iostream>
 
 VODServer::VODServer ( )
 {
@@ -20,6 +21,7 @@ bool VODServer::start ( uint16_t port )
     {
         return false;
     }
+    std::cout << "HTTP Server listening on " << * mpHttpServer << std::endl;
 
     mpNotifier -> subscribe ( mpHttpServer );
 
