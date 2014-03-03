@@ -20,11 +20,11 @@ protected:
     virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & );
 
 private:
-    std::unordered_set <HttpRequest *> mrequests;
+    std::unordered_set <CatalogRequest *> mrequests;
 
 
 
-    friend class HttpRequest;
+    friend class CatalogRequest;
 };
 
 #endif

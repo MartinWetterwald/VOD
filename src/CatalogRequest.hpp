@@ -1,20 +1,30 @@
 #ifndef _CATALOG_REQUEST_HPP_
 #define _CATALOG_REQUEST_HPP_
 
-#include "HttpRequest.hpp"
+#include "Request.hpp"
 
-class CatalogRequest : public HttpRequest
+class HttpServer;
+
+class CatalogRequest : public Request
 {
 public:
     CatalogRequest ( int sock, const NetFlux::Net::InetAddress & address );
     ~CatalogRequest ( );
 
 protected:
+    virtual void requestEventAction ( );
     virtual void writeEventAction ( );
     virtual void exceptEventAction ( );
 
+    HttpServer * mpserver;
+    uint32_t mcursor;
+
 private:
     CatalogRequest ( ) = delete;
+
+
+
+    friend class HttpServer;
 };
 
 #endif

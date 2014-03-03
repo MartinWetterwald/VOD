@@ -3,8 +3,6 @@
 
 #include <Tcp/ServerStream.hpp>
 
-class HttpServer;
-
 class Request : public NetFlux::Tcp::ServerStream
 {
 public:
