@@ -1,7 +1,7 @@
 #ifndef _VOD_SERVER_HPP_
 #define _VOD_SERVER_HPP_
 
-#include "HttpServer.hpp"
+#include "../Http/HttpServer.hpp"
 
 class VODServer
 {

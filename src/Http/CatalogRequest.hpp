@@ -1,7 +1,7 @@
 #ifndef _CATALOG_REQUEST_HPP_
 #define _CATALOG_REQUEST_HPP_
 
-#include "Request.hpp"
+#include "../Vod/Request.hpp"
 
 class HttpServer;
 
