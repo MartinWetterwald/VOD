@@ -27,7 +27,6 @@ int main ( )
     vodServer = new VODServer;
     if ( ! vodServer -> start ( ) )
     {
-        std::cout << "An error occured while starting the VOD Server."  << std::endl;
         delete vodServer;
         return EXIT_FAILURE;
     }

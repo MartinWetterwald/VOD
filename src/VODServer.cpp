@@ -21,7 +21,6 @@ bool VODServer::start ( )
 {
     if ( ! parseStartUpFile ( ) )
     {
-        std::cerr << "An error occured while trying to parse the startup file." << std::endl;
         return false;
     }
 
@@ -45,7 +44,7 @@ bool VODServer::parseStartUpFile ( )
 
     if ( ! f.is_open ( ) )
     {
-        std::cerr << "Unable to open the file" << std::endl;
+        std::cerr << "Unable to open the startup file" << std::endl;
         return false;
     }
 
@@ -68,12 +67,19 @@ bool VODServer::parseStartUpFile ( )
         }
         if ( ! std::getline ( f, tmp ) )
         {
+            std::cerr << "Unable to read address after 'ServerAddress: ' at line 1" << std::endl;
             return false;
         }
         if ( tmp [ tmp.size ( ) - 1 ] == '\r' )
         {
             tmp.erase ( tmp.size ( ) - 1 );
         }
+        if ( tmp.length ( ) == 0 )
+        {
+            std::cerr << "The address cannot be empty after 'ServerAddress: ' at line 1" << std::endl;
+            return false;
+        }
+
         mpHttpServer -> maddress = tmp;
     }
 
@@ -97,6 +103,7 @@ bool VODServer::parseStartUpFile ( )
         }
         if ( ! std::getline ( f, tmp ) )
         {
+            std::cerr << "Unable to read port number after 'ServerPort: ' at line 2" << std::endl;
             return false;
         }
         if ( tmp [ tmp.size ( ) - 1 ] == '\r' )
@@ -115,5 +122,32 @@ bool VODServer::parseStartUpFile ( )
         mpHttpServer -> mport = ( uint16_t ) tmpPort;
     }
 
+    {
+        while ( std::getline ( f, tmp ) )
+        {
+            if ( tmp [ tmp.size ( ) - 1 ] == '\r' )
+            {
+                tmp.erase ( tmp.size ( ) - 1 );
+            }
+
+            if ( ! parseStream ( tmp ) )
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool VODServer::parseStream ( const std::string & path )
+{
+    std::ifstream f ( "data/" + path );
+
+    if ( ! f.is_open ( ) )
+    {
+        std::cerr << "Unable to open stream file '" << path << "'" << std::endl;
+        return false;
+    }
     return true;
 }

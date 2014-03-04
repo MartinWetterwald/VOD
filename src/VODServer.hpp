@@ -13,6 +13,7 @@ public:
 
 private:
     bool parseStartUpFile ( );
+    bool parseStream ( const std::string & path );
 
     NetFlux::SocketIOEvent::Notifier * mpNotifier;
     HttpServer * mpHttpServer;
