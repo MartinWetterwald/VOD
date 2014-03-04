@@ -4,7 +4,7 @@
 #include <Tcp/Server.hpp>
 #include <unordered_set>
 
-#include "CatalogRequest.hpp"
+#include "Http_CatalogRequest.hpp"
 
 namespace Vod
 {
