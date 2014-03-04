@@ -7,13 +7,13 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "Vod/VODServer.hpp"
+#include "Vod/Server.hpp"
 
 #ifndef _WIN32
 static void __attribute__ ( ( noreturn ) ) intHandler ( int sig );
 #endif
 
-static VODServer * vodServer = 0;
+static Vod::Server * vodServer = 0;
 
 int main ( )
 {
@@ -24,7 +24,7 @@ int main ( )
     sigaction ( SIGINT, &act, 0 );
 #endif
 
-    vodServer = new VODServer;
+    vodServer = new Vod::Server;
     if ( ! vodServer -> start ( ) )
     {
         delete vodServer;

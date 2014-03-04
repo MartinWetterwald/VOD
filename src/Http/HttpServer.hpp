@@ -6,6 +6,11 @@
 
 #include "CatalogRequest.hpp"
 
+namespace Vod
+{
+    class Server;
+}
+
 class HttpServer : public NetFlux::Tcp::Server
 {
 public:
@@ -35,7 +40,7 @@ private:
 
 
     friend class CatalogRequest;
-    friend class VODServer;
+    friend class Vod::Server;
 };
 
 #endif
