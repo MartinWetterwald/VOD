@@ -3,7 +3,10 @@
 
 #include "../Vod/Request.hpp"
 
-class HttpServer;
+namespace Http
+{
+    class Server;
+}
 
 class CatalogRequest : public Request
 {
@@ -18,7 +21,7 @@ protected:
 
     void toString ( std::ostream & os ) const;
 
-    HttpServer * mpserver;
+    Http::Server * mpserver;
     uint32_t mcursor;
 
 private:
@@ -26,7 +29,7 @@ private:
 
 
 
-    friend class HttpServer;
+    friend class Http::Server;
 };
 
 #endif

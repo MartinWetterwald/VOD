@@ -1,5 +1,5 @@
 #include "CatalogRequest.hpp"
-#include "HttpServer.hpp"
+#include "../Http/Server.hpp"
 
 #include <iostream>
 #include <cstring>

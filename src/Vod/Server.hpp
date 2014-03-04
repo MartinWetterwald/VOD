@@ -1,7 +1,7 @@
 #ifndef _VOD_SERVER_HPP_
 #define _VOD_SERVER_HPP_
 
-#include "../Http/HttpServer.hpp"
+#include "../Http/Server.hpp"
 
 namespace Vod
 {
@@ -18,7 +18,7 @@ namespace Vod
         bool parseStream ( const std::string & path );
 
         NetFlux::SocketIOEvent::Notifier * mpNotifier;
-        HttpServer * mpHttpServer;
+        Http::Server * mpHttpServer;
     };
 }
 
