@@ -17,6 +17,8 @@ namespace Vod
         bool parseStartUpFile ( );
         bool parseStream ( const std::string & path );
 
+        inline std::istream & customGetLine ( std::istream & is, std::string & str );
+
         NetFlux::SocketIOEvent::Notifier * mpNotifier;
         Http::Server * mpHttpServer;
     };

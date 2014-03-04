@@ -67,14 +67,10 @@ namespace Vod
                 std::cerr << "Missing space after 'ServerAddress:' at line 1" << std::endl;
                 return false;
             }
-            if ( ! std::getline ( f, tmp ) )
+            if ( ! customGetLine ( f, tmp ) )
             {
                 std::cerr << "Unable to read address after 'ServerAddress: ' at line 1" << std::endl;
                 return false;
-            }
-            if ( tmp [ tmp.size ( ) - 1 ] == '\r' )
-            {
-                tmp.erase ( tmp.size ( ) - 1 );
             }
             if ( tmp.length ( ) == 0 )
             {
@@ -103,14 +99,10 @@ namespace Vod
                 std::cerr << "Missing space after 'ServerPort:' at line 2" << std::endl;
                 return false;
             }
-            if ( ! std::getline ( f, tmp ) )
+            if ( ! customGetLine ( f, tmp ) )
             {
                 std::cerr << "Unable to read port number after 'ServerPort: ' at line 2" << std::endl;
                 return false;
-            }
-            if ( tmp [ tmp.size ( ) - 1 ] == '\r' )
-            {
-                tmp.erase ( tmp.size ( ) - 1 );
             }
 
             char * endptr;
@@ -125,13 +117,8 @@ namespace Vod
         }
 
         {
-            while ( std::getline ( f, tmp ) )
+            while ( customGetLine ( f, tmp ) )
             {
-                if ( tmp [ tmp.size ( ) - 1 ] == '\r' )
-                {
-                    tmp.erase ( tmp.size ( ) - 1 );
-                }
-
                 if ( ! parseStream ( tmp ) )
                 {
                     return false;
@@ -152,5 +139,16 @@ namespace Vod
             return false;
         }
         return true;
+    }
+
+    inline std::istream & Server::customGetLine ( std::istream & is, std::string & str )
+    {
+        std::getline ( is, str );
+        if ( str [ str.size ( ) - 1 ] == '\r' )
+        {
+            str.erase ( str.size ( ) - 1 );
+        }
+
+        return is;
     }
 }
