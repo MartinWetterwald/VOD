@@ -5,10 +5,7 @@
 Request::Request ( int sock, const NetFlux::Net::InetAddress & address ) :
     NetFlux::Tcp::ServerStream ( sock, address ),
     reading ( true ),
-    endRequest ( 0 )
-{
-    std::cout << * this << " : connection established" << std::endl;
-}
+    endRequest ( 0 ) { }
 
 Request::~Request ( ) { }
 
@@ -33,12 +30,12 @@ void Request::readEventAction ( )
 
     if ( ret == 0 )
     {
-        std::cout << * this << " : client closed connection" << std::endl;
+        std::cout << * this << " : foreign host closed connection" << std::endl;
         delete this;
         return;
     }
 
-    std::cout << * this << " : got " << ret << " bytes from him" << std::endl;
+    std::cout << * this << " : got " << ret << " bytes from foreign host" << std::endl;
 
     ssize_t pos = 0;
     for ( char * cursor = buffer ; pos < ret ; ++cursor, ++pos )

@@ -18,6 +18,8 @@ void HttpServer::generateCatalog ( )
     catalog << "Content-Length: ";
 
     std::stringstream body;
+    body << "ServerAddress: " << maddress << "\r\n";
+    body << "ServerPort: " << mport << "\r\n";
 
     catalog << body.str ( ).length ( ) << "\r\n";
     catalog << "\r\n";

@@ -12,6 +12,11 @@ public:
     HttpServer ( ) = default;
     virtual ~HttpServer ( );
 
+    inline bool listen ( )
+    {
+        return NetFlux::Tcp::Server::listen ( mport );
+    }
+
     void generateCatalog ( );
 
 protected:
@@ -21,14 +26,16 @@ protected:
 
     virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & );
 
-    std::string mcatalog;
 
 private:
     std::unordered_set <CatalogRequest *> mrequests;
-
+    std::string mcatalog;
+    std::string maddress;
+    uint16_t mport;
 
 
     friend class CatalogRequest;
+    friend class VODServer;
 };
 
 #endif

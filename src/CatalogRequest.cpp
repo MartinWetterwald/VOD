@@ -5,7 +5,10 @@
 #include <cstring>
 
 CatalogRequest::CatalogRequest ( int sock, const NetFlux::Net::InetAddress & address )
-    : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 ) { }
+    : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 )
+{
+    std::cout << * this << " : connection established" << std::endl;
+}
 
 CatalogRequest::~CatalogRequest ( )
 {
@@ -39,7 +42,7 @@ void CatalogRequest::writeEventAction ( )
 
     if ( mcursor >= length )
     {
-        std::cout << * this << " : Catalog sent (" << length << " bytes) -> killing client" << std::endl;
+        std::cout << * this << " : catalog sent (" << length << " bytes) -> closing connection" << std::endl;
         delete this;
     }
 }

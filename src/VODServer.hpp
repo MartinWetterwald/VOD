@@ -9,9 +9,11 @@ public:
     VODServer ( );
     virtual ~VODServer ( );
 
-    bool start ( uint16_t port );
+    bool start ( );
 
 private:
+    bool parseStartUpFile ( );
+
     NetFlux::SocketIOEvent::Notifier * mpNotifier;
     HttpServer * mpHttpServer;
 };
