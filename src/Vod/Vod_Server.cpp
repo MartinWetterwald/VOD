@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#include "Vod_Server.hpp"
 
 #include <SocketIOEvent/Notifier.hpp>
 #include <iostream>
@@ -10,7 +10,7 @@ namespace Vod
     Server::Server ( )
     {
         mpNotifier = new NetFlux::SocketIOEvent::Notifier;
-        mpHttpServer = new HttpServer;
+        mpHttpServer = new Http::Server;
     }
 
     Server::~Server ( )

@@ -1,7 +1,7 @@
 #ifndef _VOD_SERVER_HPP_
 #define _VOD_SERVER_HPP_
 
-#include "../Http/Server.hpp"
+#include "../Http/Http_Server.hpp"
 
 namespace Vod
 {

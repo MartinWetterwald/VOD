@@ -7,7 +7,7 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "Vod/Server.hpp"
+#include "Vod/Vod_Server.hpp"
 
 #ifndef _WIN32
 static void __attribute__ ( ( noreturn ) ) intHandler ( int sig );
