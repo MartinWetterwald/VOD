@@ -1,14 +1,14 @@
 #ifndef _CATALOG_REQUEST_HPP_
 #define _CATALOG_REQUEST_HPP_
 
-#include "../Vod/Request.hpp"
+#include "../Vod/Vod_Request.hpp"
 
 namespace Http
 {
     class Server;
 }
 
-class CatalogRequest : public Request
+class CatalogRequest : public Vod::Request
 {
 public:
     CatalogRequest ( int sock, const NetFlux::Net::InetAddress & address );
