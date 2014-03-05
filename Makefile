@@ -18,16 +18,20 @@ LIBINCFOLDER = $(LIBBUILDFOLDER)include/
 LIBFILE = $(LIBBINFOLDER)libnetflux.a
 LIB = $(patsubst lib%,-l%, $(notdir $(basename $(LIBFILE))))
 
-CC = @clang++
+CLANG = @clang++
+GPP = @g++
 
-CFLAGS = -std=c++11 -I$(LIBINCFOLDER) -Weverything -Wno-padded -Wno-disabled-macro-expansion -Wno-c++98-compat
+COMMONFLAGS = -std=c++11 -I$(LIBINCFOLDER)
+ifneq ($(MODE),release)
+COMMONFLAGS += -DDEBUG -g -O0
+else
+COMMONFLAGS += -Werror -g0 -O3
+endif
+CLANGFLAGS = $(COMMONFLAGS) -Weverything -Wno-padded -Wno-disabled-macro-expansion -Wno-c++98-compat -Wno-missing-prototypes
+GPPFLAGS = $(COMMONFLAGS) -Wall -Wextra -Weffc++ -Wno-error=effc++
+
 LNKFLAGS = -L$(LIBBINFOLDER) $(LIB)
 
-ifneq ($(MODE),release)
-CFLAGS += -DDEBUG -g -O0
-else
-CFLAGS += -Werror -g0 -O3
-endif
 
 SRC = $(call rwildcard,$(SRCDIR),*.cpp)
 OBJ = $(addprefix $(OBJDIR), $(notdir $(SRC:%.cpp=%.o)))
@@ -38,22 +42,32 @@ DEP = $(wildcard $(DEPDIR)*.d)
 
 ifneq ($(words $(OBJ)),0)
 $(EXE): $(LIBFILE) $(OBJ)
-	@make -C $(LIBFOLDER) $(MAKECMDGOALS)
 	@mkdir -p $(BINDIR)
 	@printf "%-13s <$@>...\n" "Linking"
-	$(CC) -o $@ $(OBJ) $(LNKFLAGS)
+ifeq ($(CC),g++)
+	$(GPP) $(GPPFLAGS) -o $@ $(OBJ) $(LNKFLAGS)
+else
+	$(CLANG) $(CLANGFLAGS) -o $@ $(OBJ) $(LNKFLAGS)
+endif
 	@ln -sf $(EXE) $(EXENAME)
 else
 $(EXE):
 	$(error No source code found)
 endif
 
+$(LIBFILE):
+	@make -C $(LIBFOLDER)
 
 $(OBJDIR)%.o: $$(call rwildcard,$(SRCDIR),%.cpp) $(THIS)
 	@mkdir -p $(DEPDIR)
 	@mkdir -p $(OBJDIR)
-	@printf "%-13s <$<>...\n" "Compiling"
-	$(CC) $(CFLAGS) -o $@ -c -MMD -MF $(addprefix $(DEPDIR), $(notdir $(<:.cpp=.d))) $<
+ifeq ($(CC),g++)
+	@printf "%-13s <$<>...\n" "Gplusplusing"
+	$(GPP) $(GPPFLAGS) -o $@ -c -MMD -MF $(addprefix $(DEPDIR), $(notdir $(<:.cpp=.d))) $<
+else
+	@printf "%-13s <$<>...\n" "Clanging"
+	$(CLANG) $(CLANGFLAGS) -o $@ -c -MMD -MF $(addprefix $(DEPDIR), $(notdir $(<:.cpp=.d))) $<
+endif
 
 -include $(DEP)
 
