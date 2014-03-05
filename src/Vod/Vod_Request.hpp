@@ -1,7 +1,7 @@
 #ifndef _VOD_REQUEST_HPP_
 #define _VOD_REQUEST_HPP_
 
-#include <Tcp/ServerStream.hpp>
+#include <Tcp/Tcp_ServerStream.hpp>
 
 namespace Vod
 {
