@@ -1,6 +1,8 @@
 THIS := $(lastword $(MAKEFILE_LIST))
 MAKEFLAGS += --no-print-directory
 
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
 EXENAME = VOD
 SRCDIR = src/
 BUILDDIR = build/
@@ -27,7 +29,7 @@ else
 CFLAGS += -Werror -g0 -O3
 endif
 
-SRC = $(shell find $(SRCDIR) -iname "*.cpp")
+SRC = $(call rwildcard,$(SRCDIR),*.cpp)
 OBJ = $(addprefix $(OBJDIR), $(notdir $(SRC:%.cpp=%.o)))
 DEP = $(wildcard $(DEPDIR)*.d)
 
@@ -47,7 +49,7 @@ $(EXE):
 endif
 
 
-$(OBJDIR)%.o: $$(shell find $(SRCDIR) -name "%.cpp") $(THIS)
+$(OBJDIR)%.o: $$(call rwildcard,$(SRCDIR),%.cpp) $(THIS)
 	@mkdir -p $(DEPDIR)
 	@mkdir -p $(OBJDIR)
 	@printf "%-13s <$<>...\n" "Compiling"
