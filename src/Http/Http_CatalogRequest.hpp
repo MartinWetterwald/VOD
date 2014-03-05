@@ -25,7 +25,8 @@ namespace Http
 
     private:
         CatalogRequest ( ) = delete;
-
+        CatalogRequest ( const CatalogRequest & ) = delete;
+        CatalogRequest & operator= ( const CatalogRequest & ) = delete;
 
 
         friend class Server;

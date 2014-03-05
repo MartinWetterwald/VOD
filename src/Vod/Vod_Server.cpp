@@ -7,11 +7,9 @@
 
 namespace Vod
 {
-    Server::Server ( )
-    {
-        mpNotifier = new NetFlux::SocketIOEvent::Notifier;
-        mpHttpServer = new Http::Server;
-    }
+    Server::Server ( ) :
+        mpNotifier ( new NetFlux::SocketIOEvent::Notifier ),
+        mpHttpServer ( new Http::Server ) { }
 
     Server::~Server ( )
     {
