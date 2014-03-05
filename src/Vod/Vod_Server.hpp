@@ -2,6 +2,9 @@
 #define _VOD_SERVER_HPP_
 
 #include "../Http/Http_Server.hpp"
+#include "Vod_CatalogEntry.hpp"
+
+#include <vector>
 
 namespace Vod
 {
@@ -23,6 +26,8 @@ namespace Vod
 
         NetFlux::SocketIOEvent::Notifier * mpNotifier;
         Http::Server * mpHttpServer;
+
+        std::vector <CatalogEntry *> mcatalogEntries;
     };
 }
 
