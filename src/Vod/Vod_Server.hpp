@@ -19,6 +19,7 @@ namespace Vod
     private:
         bool parseStartUpFile ( );
         bool parseStream ( const std::string & path );
+        bool parseImage ( std::string & path );
         inline std::istream & customGetLine ( std::istream & is, std::string & str );
 
         Server ( const Server & ) = delete;
