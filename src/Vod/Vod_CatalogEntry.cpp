@@ -73,14 +73,18 @@ namespace Vod
             stream_ips = ( uint16_t ) tmpNumber;
         }
 
+        CatalogImages * pimages = new CatalogImages;
         // Image files
         {
             while ( customGetLine ( f, tmp ) )
             {
                 if ( ! parseImage ( tmp ) )
                 {
+                    delete pimages;
                     return nullptr;
                 }
+
+                pimages -> push_back ( tmp );
             }
         }
 
@@ -91,10 +95,14 @@ namespace Vod
             stream_addr,
             stream_port,
             stream_protocol,
-            stream_ips );
+            stream_ips,
+            pimages );
     }
 
-    CatalogEntry::~CatalogEntry ( ) { }
+    CatalogEntry::~CatalogEntry ( )
+    {
+        delete mpimages;
+    }
 
     void CatalogEntry::toString ( std::ostream & os ) const
     {
@@ -188,14 +196,16 @@ namespace Vod
             const std::string & addr,
             uint16_t port,
             Protocol proto,
-            uint16_t ips ) :
+            uint16_t ips,
+            CatalogImages * pimages ) :
         mid ( id ),
         mname ( name ),
         mtype ( type ),
         maddr ( addr ),
         mport ( port ),
         mproto ( proto ),
-        mips ( ips )
+        mips ( ips ),
+        mpimages ( pimages )
     {
         generateString ( );
     }

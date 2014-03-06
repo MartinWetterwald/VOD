@@ -2,6 +2,7 @@
 #define _VOD_CATALOG_ENTRY_HPP_
 
 #include <string>
+#include <vector>
 
 namespace Vod
 {
@@ -23,6 +24,7 @@ namespace Vod
 
 
     protected:
+        typedef std::vector <std::string> CatalogImages;
         CatalogEntry (
                 uint32_t id,
                 const std::string & name,
@@ -30,7 +32,8 @@ namespace Vod
                 const std::string & addr,
                 uint16_t port,
                 Protocol proto,
-                uint16_t ips );
+                uint16_t ips,
+                CatalogImages * pimages );
 
         uint32_t mid;
         std::string mname;
@@ -39,6 +42,8 @@ namespace Vod
         uint16_t mport;
         Protocol mproto;
         uint16_t mips;
+
+        CatalogImages * mpimages;
 
         std::string mstr;
 
