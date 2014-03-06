@@ -1,19 +1,18 @@
-#include <SocketIOEvent/SocketIOEvent_Notifier.hpp>
-#include <iostream>
-#ifndef _WIN32
-#include <unistd.h>
-#endif
-#include <csignal>
-#include <cstring>
-#include <cstdlib>
-
 #include "Vod/Vod_Server.hpp"
 
-#ifndef _WIN32
-static void __attribute__ ( ( noreturn ) ) intHandler ( int sig );
-#endif
+static Vod::Server * vodServer = nullptr;
 
-static Vod::Server * vodServer = 0;
+#ifndef _WIN32
+#include <csignal>
+static void __attribute__ ( ( noreturn ) ) intHandler ( int )
+{
+    if ( vodServer )
+    {
+        delete vodServer;
+    }
+    exit ( EXIT_SUCCESS );
+}
+#endif
 
 int main ( )
 {
@@ -34,15 +33,3 @@ int main ( )
     delete vodServer;
     return EXIT_SUCCESS;
 }
-
-
-#ifndef _WIN32
-static void intHandler ( int )
-{
-    if ( vodServer )
-    {
-        delete vodServer;
-    }
-    exit ( EXIT_SUCCESS );
-}
-#endif
