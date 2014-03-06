@@ -9,7 +9,7 @@ namespace Vod
 {
     Server::Server ( ) :
         mpNotifier ( new NetFlux::SocketIOEvent::Notifier ),
-        mpHttpServer ( new Http::Server ) { }
+        mpHttpServer ( new Http::Server ( this ) ) { }
 
     Server::~Server ( )
     {
@@ -45,6 +45,8 @@ namespace Vod
 
     bool Server::parseStartUpFile ( )
     {
+        std::cout << "Parsing startup file..." << std::endl;
+
         std::ifstream f ( "data/startup.txt", std::ios::binary );
 
         if ( ! f.is_open ( ) )
@@ -132,6 +134,8 @@ namespace Vod
 
     bool Server::parseStream ( const std::string & path )
     {
+        std::cout << "Parsing stream file " << path << "..." << std::endl;
+
         std::ifstream f ( "data/" + path );
 
         if ( ! f.is_open ( ) )
@@ -147,7 +151,7 @@ namespace Vod
         CatalogEntry::Type stream_type;
         CatalogEntry::Protocol stream_protocol;
         uint16_t stream_port;
-        uint8_t stream_ips;
+        uint16_t stream_ips;
 
         // ID
         {
@@ -359,7 +363,7 @@ namespace Vod
                 std::cerr << "Invalid stream IPS after 'IPS: ' at line 7" << std::endl;
                 return false;
             }
-            stream_ips = ( uint8_t ) tmpIps;
+            stream_ips = ( uint16_t ) tmpIps;
         }
 
         mcatalogEntries.push_back ( new CatalogEntry (

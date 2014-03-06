@@ -10,7 +10,7 @@ namespace Vod
             const std::string & addr,
             uint16_t port,
             Protocol proto,
-            uint8_t ips ) :
+            uint16_t ips ) :
         mid ( id ),
         mname ( name ),
         mtype ( type ),

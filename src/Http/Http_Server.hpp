@@ -16,7 +16,7 @@ namespace Http
     class Server : public NetFlux::Tcp::Server
     {
     public:
-        Server ( ) = default;
+        Server ( Vod::Server * server );
         virtual ~Server ( );
 
         inline bool listen ( )
@@ -36,6 +36,8 @@ namespace Http
 
     private:
         std::unordered_set <CatalogRequest *> mrequests;
+        Vod::Server * mpvodServer;
+
         std::string mcatalog;
         std::string maddress;
         uint16_t mport;

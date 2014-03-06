@@ -28,6 +28,10 @@ namespace Vod
         Http::Server * mpHttpServer;
 
         std::vector <CatalogEntry *> mcatalogEntries;
+
+
+
+        friend class Http::Server;
     };
 }
 

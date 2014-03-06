@@ -1,8 +1,12 @@
 #include "Http_Server.hpp"
+#include "../Vod/Vod_Server.hpp"
+
 #include <sstream>
 
 namespace Http
 {
+    Server::Server ( Vod::Server * server ) : mpvodServer ( server ) { }
+
     Server::~Server ( )
     {
         for ( const auto & prequest : mrequests )
@@ -22,6 +26,12 @@ namespace Http
         std::stringstream body;
         body << "ServerAddress: " << maddress << "\r\n";
         body << "ServerPort: " << mport << "\r\n";
+
+        for ( const auto & pentry : mpvodServer -> mcatalogEntries )
+        {
+            body << * pentry;
+        }
+        body << "\r\n";
 
         catalog << body.str ( ).length ( ) << "\r\n";
         catalog << "\r\n";

@@ -18,7 +18,7 @@ namespace Vod
                 const std::string & addr,
                 uint16_t port,
                 Protocol proto,
-                uint8_t ips );
+                uint16_t ips );
 
         virtual ~CatalogEntry ( );
 
@@ -37,7 +37,7 @@ namespace Vod
         std::string maddr;
         uint16_t mport;
         Protocol mproto;
-        uint8_t mips;
+        uint16_t mips;
 
         std::string mstr;
 
