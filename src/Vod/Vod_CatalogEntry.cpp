@@ -29,9 +29,9 @@ namespace Vod
         os << mstr;
     }
 
-    void CatalogEntry::protocolToString ( std::string & str ) const
+    void CatalogEntry::protocolToString ( Protocol proto, std::string & str )
     {
-        switch ( mproto )
+        switch ( proto )
         {
             case TCP_PULL:
                 str = "TCP_PULL";
@@ -51,9 +51,53 @@ namespace Vod
         }
     }
 
-    void CatalogEntry::typeToString ( std::string & str ) const
+    bool CatalogEntry::stringToProtocol ( const std::string & str, Protocol & proto )
     {
-        switch ( mtype )
+        if ( str == "TCP_PULL" )
+        {
+            proto = TCP_PULL;
+        }
+        else if ( str == "TCP_PUSH" )
+        {
+            proto = TCP_PUSH;
+        }
+        else if ( str == "UDP_PULL" )
+        {
+            proto = UDP_PULL;
+        }
+        else if ( str == "UDP_PUSH" )
+        {
+            proto = UDP_PUSH;
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool CatalogEntry::stringToType ( const std::string & str, Type & type )
+    {
+        if ( str == "BMP" )
+        {
+            type = BMP;
+        }
+        else if ( str == "JPEG" )
+        {
+            type = JPEG;
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    void CatalogEntry::typeToString ( Type type, std::string & str )
+    {
+        switch ( type )
         {
             case BMP:
                 str = "BMP";
@@ -68,8 +112,8 @@ namespace Vod
     void CatalogEntry::generateString ( )
     {
         std::string proto, type;
-        protocolToString ( proto );
-        typeToString ( type );
+        protocolToString ( mproto, proto );
+        typeToString ( mtype, type );
 
         std::ostringstream ss;
         ss

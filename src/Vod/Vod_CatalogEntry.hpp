@@ -7,11 +7,10 @@ namespace Vod
 {
     class CatalogEntry
     {
-    protected:
+    public:
         enum Protocol { TCP_PULL, TCP_PUSH, UDP_PULL, UDP_PUSH };
         enum Type { BMP, JPEG };
 
-    public:
         CatalogEntry (
                 uint32_t id,
                 const std::string & name,
@@ -25,11 +24,13 @@ namespace Vod
 
         void toString ( std::ostream & os ) const;
 
+        static void protocolToString ( Protocol proto, std::string & str );
+        static bool stringToProtocol ( const std::string & str, Protocol & proto );
+        static void typeToString ( Type type, std::string & str );
+        static bool stringToType ( const std::string & str, Type & type );
+
 
     protected:
-        void protocolToString ( std::string & str ) const;
-        void typeToString ( std::string & str ) const;
-
         uint32_t mid;
         std::string mname;
         Type mtype;
