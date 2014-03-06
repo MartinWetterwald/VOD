@@ -25,7 +25,7 @@ namespace Vod
 
         // ID
         {
-            Vod_parseNumber ( 1, "ID", nullptr, 1, 5 );
+            Vod_parseNumberMin ( 1, "ID", nullptr, 1 );
             stream_id = ( uint32_t ) tmpNumber;
         }
 
@@ -53,7 +53,7 @@ namespace Vod
 
         // Port
         {
-            Vod_parseNumber ( 5, "Port", nullptr, VOD_MIN_PORT, VOD_MAX_PORT );
+            Vod_parseNumberMinMax ( 5, "Port", nullptr, VOD_MIN_PORT, VOD_MAX_PORT );
             stream_port = ( uint16_t ) tmpNumber;
         }
 
@@ -69,7 +69,7 @@ namespace Vod
 
         // IPS
         {
-            Vod_parseNumber ( 7, "IPS", nullptr, 1, 50 );
+            Vod_parseNumberMin ( 7, "IPS", nullptr, 1 );
             stream_ips = ( uint16_t ) tmpNumber;
         }
 

@@ -42,10 +42,17 @@ if ( ! customGetLine ( f, tmp ) )\
     return RETURN;\
 }
 
-#define Vod_parseNumber(LINE,VAR,RETURN,MIN,MAX) Vod_parse(LINE,VAR,RETURN)\
+#define Vod_parseNumberMin(LINE,VAR,RETURN,MIN) Vod_parse(LINE,VAR,RETURN)\
 char * endptr;\
 unsigned long tmpNumber = strtoul ( tmp.c_str ( ), &endptr, 10 );\
-if ( * endptr != '\0' || tmpNumber < MIN || tmpNumber > MAX )\
+if ( * endptr != '\0' || tmpNumber < MIN )\
+{\
+    std::cerr << "Invalid stream " << VAR << " after '" << VAR << ": ' at line " << LINE << std::endl;\
+    return RETURN;\
+}
+
+#define Vod_parseNumberMinMax(LINE,VAR,RETURN,MIN,MAX) Vod_parseNumberMin(LINE,VAR,RETURN,MIN)\
+if ( tmpNumber > MAX )\
 {\
     std::cerr << "Invalid stream " << VAR << " after '" << VAR << ": ' at line " << LINE << std::endl;\
     return RETURN;\
