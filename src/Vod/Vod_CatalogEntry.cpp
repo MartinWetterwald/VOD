@@ -74,15 +74,15 @@ namespace Vod
         }
 
         // Image files
-        // {
-        //     while ( customGetLine ( f, tmp ) )
-        //     {
-        //         if ( ! parseImage ( tmp ) )
-        //         {
-        //             return false;
-        //         }
-        //     }
-        // }
+        {
+            while ( customGetLine ( f, tmp ) )
+            {
+                if ( ! parseImage ( tmp ) )
+                {
+                    return nullptr;
+                }
+            }
+        }
 
         return new CatalogEntry (
             stream_id,
@@ -219,6 +219,30 @@ namespace Vod
 
         mstr = ss.str ( );
     }
+
+    bool CatalogEntry::parseImage ( std::string & path )
+    {
+#ifndef _WIN32
+        size_t pos = 0;
+        const std::string search ( "\\" );
+        const std::string replace ( "/" );
+        while ( ( pos = path.find ( search, pos ) ) != std::string::npos )
+        {
+            path.replace ( pos, search.length ( ), replace );
+            pos += replace.length ( );
+        }
+#endif
+        std::ifstream f ( "data/" + path );
+
+        if ( ! f.is_open ( ) )
+        {
+            std::cerr << "Unable to open image file '" << path << "'" << std::endl;
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 std::ostream & operator<< ( std::ostream & os, const Vod::CatalogEntry & catalogEntry )

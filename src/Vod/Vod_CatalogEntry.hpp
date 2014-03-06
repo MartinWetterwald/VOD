@@ -44,6 +44,7 @@ namespace Vod
 
     private:
         void generateString ( );
+        static bool parseImage ( std::string & path );
 
         CatalogEntry ( ) = delete;
     };
