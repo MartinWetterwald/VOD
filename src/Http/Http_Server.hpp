@@ -38,6 +38,9 @@ namespace Http
         std::unordered_set <CatalogRequest *> mrequests;
         Vod::Server * mpvodServer;
 
+        Server ( const Server & ) = delete;
+        Server & operator= ( const Server & ) = delete;
+
         std::string mcatalog;
         std::string maddress;
         uint16_t mport;
