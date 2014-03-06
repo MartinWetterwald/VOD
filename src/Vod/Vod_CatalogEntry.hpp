@@ -52,6 +52,8 @@ namespace Vod
         static bool parseImage ( std::string & path );
 
         CatalogEntry ( ) = delete;
+        CatalogEntry ( const CatalogEntry & ) = delete;
+        CatalogEntry & operator= ( const CatalogEntry & ) = delete;
     };
 }
 
