@@ -1,25 +1,97 @@
 #include "Vod_CatalogEntry.hpp"
-#include <sstream>
+#include "Vod_parsingUtils.hpp"
+#include <iostream>
 
 namespace Vod
 {
-    CatalogEntry::CatalogEntry (
-            uint32_t id,
-            const std::string & name,
-            Type type,
-            const std::string & addr,
-            uint16_t port,
-            Protocol proto,
-            uint16_t ips ) :
-        mid ( id ),
-        mname ( name ),
-        mtype ( type ),
-        maddr ( addr ),
-        mport ( port ),
-        mproto ( proto ),
-        mips ( ips )
+    CatalogEntry * CatalogEntry::factory ( const std::string & path )
     {
-        generateString ( );
+        std::ifstream f ( "data/" + path );
+
+        if ( ! f.is_open ( ) )
+        {
+            std::cerr << "Unable to open stream file '" << path << "'" << std::endl;
+            return nullptr;
+        }
+
+        std::string tmp;
+
+        uint32_t stream_id;
+        std::string stream_name, stream_addr;
+        CatalogEntry::Type stream_type;
+        CatalogEntry::Protocol stream_protocol;
+        uint16_t stream_port;
+        uint16_t stream_ips;
+
+        // ID
+        {
+            Vod_parseNumber ( 1, "ID", nullptr, 1, 5 );
+            stream_id = ( uint32_t ) tmpNumber;
+        }
+
+        // Name
+        {
+            Vod_parse ( 2, "Name", nullptr );
+            stream_name = tmp;
+        }
+
+        // Type
+        {
+            Vod_parse ( 3, "Type", nullptr );
+            if ( ! CatalogEntry::stringToType ( tmp, stream_type ) )
+            {
+                std::cerr << "Stream Type after 'Type: ' at line 3 is unvalid" << std::endl;
+                return nullptr;
+            }
+        }
+
+        // Address
+        {
+            Vod_parse ( 4, "Address", nullptr );
+            stream_addr = tmp;
+        }
+
+        // Port
+        {
+            Vod_parseNumber ( 5, "Port", nullptr, VOD_MIN_PORT, VOD_MAX_PORT );
+            stream_port = ( uint16_t ) tmpNumber;
+        }
+
+        // Protocol
+        {
+            Vod_parse ( 6, "Protocol", nullptr );
+            if ( ! CatalogEntry::stringToProtocol ( tmp, stream_protocol ) )
+            {
+                std::cerr << "Stream Protocol after 'Protocol: ' at line 6 is unvalid" << std::endl;
+                return nullptr;
+            }
+        }
+
+        // IPS
+        {
+            Vod_parseNumber ( 7, "IPS", nullptr, 1, 50 );
+            stream_ips = ( uint16_t ) tmpNumber;
+        }
+
+        // Image files
+        // {
+        //     while ( customGetLine ( f, tmp ) )
+        //     {
+        //         if ( ! parseImage ( tmp ) )
+        //         {
+        //             return false;
+        //         }
+        //     }
+        // }
+
+        return new CatalogEntry (
+            stream_id,
+            stream_name,
+            stream_type,
+            stream_addr,
+            stream_port,
+            stream_protocol,
+            stream_ips );
     }
 
     CatalogEntry::~CatalogEntry ( ) { }
@@ -107,6 +179,25 @@ namespace Vod
                 str = "JPEG";
                 return;
         }
+    }
+
+    CatalogEntry::CatalogEntry (
+            uint32_t id,
+            const std::string & name,
+            Type type,
+            const std::string & addr,
+            uint16_t port,
+            Protocol proto,
+            uint16_t ips ) :
+        mid ( id ),
+        mname ( name ),
+        mtype ( type ),
+        maddr ( addr ),
+        mport ( port ),
+        mproto ( proto ),
+        mips ( ips )
+    {
+        generateString ( );
     }
 
     void CatalogEntry::generateString ( )

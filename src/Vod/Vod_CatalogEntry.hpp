@@ -11,15 +11,7 @@ namespace Vod
         enum Protocol { TCP_PULL, TCP_PUSH, UDP_PULL, UDP_PUSH };
         enum Type { BMP, JPEG };
 
-        CatalogEntry (
-                uint32_t id,
-                const std::string & name,
-                Type type,
-                const std::string & addr,
-                uint16_t port,
-                Protocol proto,
-                uint16_t ips );
-
+        static CatalogEntry * factory ( const std::string & path );
         virtual ~CatalogEntry ( );
 
         void toString ( std::ostream & os ) const;
@@ -31,6 +23,15 @@ namespace Vod
 
 
     protected:
+        CatalogEntry (
+                uint32_t id,
+                const std::string & name,
+                Type type,
+                const std::string & addr,
+                uint16_t port,
+                Protocol proto,
+                uint16_t ips );
+
         uint32_t mid;
         std::string mname;
         Type mtype;
