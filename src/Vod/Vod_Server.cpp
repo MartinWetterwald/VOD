@@ -55,69 +55,19 @@ namespace Vod
         }
 
         std::string tmp;
+        // ServerAddress
         {
-            if ( ! std::getline ( f, tmp, ':' ) )
-            {
-                std::cerr << "Missing ':' at line 1" << std::endl;
-                return false;
-            }
-            if ( tmp != "ServerAddress" )
-            {
-                std::cerr << "Missing 'ServerAddress' at line 1" << std::endl;
-                return false;
-            }
-            if ( f.get ( ) != ' ' )
-            {
-                std::cerr << "Missing space after 'ServerAddress:' at line 1" << std::endl;
-                return false;
-            }
-            if ( ! customGetLine ( f, tmp ) )
-            {
-                std::cerr << "Unable to read address after 'ServerAddress: ' at line 1" << std::endl;
-                return false;
-            }
-            if ( tmp.length ( ) == 0 )
-            {
-                std::cerr << "The address cannot be empty after 'ServerAddress: ' at line 1" << std::endl;
-                return false;
-            }
-
+            Vod_parse ( 1, "ServerAddress", false );
             mpHttpServer -> maddress = tmp;
         }
 
+        // ServerPort
         {
-            if ( ! std::getline ( f, tmp, ':' ) )
-            {
-                std::cerr << "Missing ':' at line 2" << std::endl;
-                return false;
-            }
-            if ( tmp != "ServerPort" )
-            {
-                std::cerr << "Missing 'ServerPort' at line 2" << std::endl;
-                return false;
-            }
-            if ( f.get ( ) != ' ' )
-            {
-                std::cerr << "Missing space after 'ServerPort:' at line 2" << std::endl;
-                return false;
-            }
-            if ( ! customGetLine ( f, tmp ) )
-            {
-                std::cerr << "Unable to read port number after 'ServerPort: ' at line 2" << std::endl;
-                return false;
-            }
-
-            char * endptr;
-            unsigned long tmpPort = strtoul ( tmp.c_str ( ), &endptr, 10 );
-
-            if ( * endptr != '\0' || tmpPort < 1 || tmpPort > 65535 )
-            {
-                std::cerr << "Invalid port after 'ServerPort: ' at line 2" << std::endl;
-                return false;
-            }
-            mpHttpServer -> mport = ( uint16_t ) tmpPort;
+            Vod_parseNumberMinMax ( 2, "ServerPort", false, VOD_MIN_PORT, VOD_MAX_PORT );
+            mpHttpServer -> mport = ( uint16_t ) tmpNumber;
         }
 
+        // Catalog Entries
         {
             while ( customGetLine ( f, tmp ) )
             {
@@ -131,8 +81,6 @@ namespace Vod
                 mcatalogEntries.push_back ( pcatalogEntry );
             }
         }
-
         return true;
     }
-
 }
