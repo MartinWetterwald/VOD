@@ -11,7 +11,6 @@ namespace Http
     {
         for ( const auto & prequest : mrequests )
         {
-            prequest -> mpserver = nullptr;
             delete prequest;
         }
     }
