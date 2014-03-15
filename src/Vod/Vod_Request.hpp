@@ -15,10 +15,10 @@ namespace Vod
 
 
     protected:
-        virtual void readEventAction ( );
+        virtual bool readEventAction ( );
         virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & event );
 
-        virtual void requestEventAction ( ) = 0;
+        virtual bool requestEventAction ( ) = 0;
 
         bool reading;
 

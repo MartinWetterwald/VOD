@@ -14,9 +14,12 @@ namespace Http
         ~CatalogRequest ( );
 
     protected:
-        virtual void requestEventAction ( );
-        virtual void writeEventAction ( );
-        virtual void exceptEventAction ( );
+        virtual bool requestEventAction ( );
+        virtual bool writeEventAction ( );
+        virtual bool exceptEventAction ( );
+
+        virtual bool timeoutEventAction ( );
+        virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & event );
 
         void toString ( std::ostream & os ) const;
 

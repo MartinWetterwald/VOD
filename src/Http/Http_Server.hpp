@@ -27,9 +27,9 @@ namespace Http
         void generateCatalog ( );
 
     protected:
-        virtual void readEventAction ( );
-        virtual void writeEventAction ( );
-        virtual void exceptEventAction ( );
+        virtual bool readEventAction ( );
+        virtual bool writeEventAction ( );
+        virtual bool exceptEventAction ( );
 
         virtual void chooseSubscription ( NetFlux::SocketIOEvent::Event & );
 
