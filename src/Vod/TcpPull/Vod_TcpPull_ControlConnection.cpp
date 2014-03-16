@@ -8,7 +8,7 @@ namespace Vod {
 namespace TcpPull
 {
     ControlConnection::ControlConnection ( int sock, const NetFlux::Net::InetAddress & address )
-        : NetFlux::Tcp::ServerStream ( sock, address ), mpserver ( nullptr ), mcursor ( 0 )
+        : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 )
     {
         std::cout << * this << " : connection established" << std::endl;
     }
@@ -19,6 +19,11 @@ namespace TcpPull
         {
             mpserver -> mstreams.erase ( this );
         }
+    }
+
+    bool ControlConnection::requestEventAction ( )
+    {
+        return true;
     }
 
     bool ControlConnection::writeEventAction ( )
@@ -44,12 +49,6 @@ namespace TcpPull
     {
         event.setRead ( );
         event.setTimeout ( 5000000 );
-    }
-
-    bool ControlConnection::readEventAction ( )
-    {
-        std::cout << "Coucou" << std::endl;
-        return true;
     }
 
     void ControlConnection::toString ( std::ostream & os ) const

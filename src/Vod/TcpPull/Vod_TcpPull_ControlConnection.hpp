@@ -1,7 +1,7 @@
 #ifndef _VOD_TCPPULL_STREAM_HPP_
 #define _VOD_TCPPULL_STREAM_HPP_
 
-#include <Tcp/Tcp_ServerStream.hpp>
+#include "../Vod_Request.hpp"
 
 namespace Vod
 {
@@ -9,14 +9,14 @@ namespace Vod
     {
         class Server;
 
-        class ControlConnection : public NetFlux::Tcp::ServerStream
+        class ControlConnection : public Request
         {
         public:
             ControlConnection ( int sock, const NetFlux::Net::InetAddress & address );
             ~ControlConnection ( );
 
         protected:
-            virtual bool readEventAction ( );
+            virtual bool requestEventAction ( );
             virtual bool writeEventAction ( );
             virtual bool exceptEventAction ( );
 
