@@ -61,7 +61,7 @@ namespace Http
 
     bool CatalogRequest::timeoutEventAction ( )
     {
-        std::cout << * this << " : didn't talk for a long time -> killed" << std::endl;
+        std::cout << * this << " : hasn't talked for a long time -> killed" << std::endl;
         delete this;
         return false;
     }
@@ -69,7 +69,7 @@ namespace Http
     void CatalogRequest::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
     {
         Vod::Request::chooseSubscription ( event );
-        event.setTimeout ( 10000000 );
+        event.setTimeout ( 5000000 );
     }
 
     bool CatalogRequest::requestEventAction ( )
