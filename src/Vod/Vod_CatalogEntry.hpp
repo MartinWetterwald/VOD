@@ -2,7 +2,7 @@
 #define _VOD_CATALOG_ENTRY_HPP_
 
 #include <string>
-#include <vector>
+#include <map>
 
 namespace Vod
 {
@@ -24,7 +24,7 @@ namespace Vod
 
 
     protected:
-        typedef std::vector <std::string> CatalogImages;
+        typedef std::map <uint32_t, std::string> CatalogImages;
         CatalogEntry (
                 uint32_t id,
                 const std::string & name,
@@ -54,6 +54,9 @@ namespace Vod
         CatalogEntry ( ) = delete;
         CatalogEntry ( const CatalogEntry & ) = delete;
         CatalogEntry & operator= ( const CatalogEntry & ) = delete;
+
+
+        friend class Server;
     };
 }
 

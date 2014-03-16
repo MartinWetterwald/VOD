@@ -17,7 +17,7 @@ namespace Vod
 
         for ( const auto & pcatalogEntry : mcatalogEntries )
         {
-            delete pcatalogEntry;
+            delete pcatalogEntry.second;
         }
     }
 
@@ -78,7 +78,7 @@ namespace Vod
                     return false;
                 }
 
-                mcatalogEntries.push_back ( pcatalogEntry );
+                mcatalogEntries.insert ( { pcatalogEntry -> mid, pcatalogEntry } );
             }
         }
         return true;

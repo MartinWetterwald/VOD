@@ -4,7 +4,7 @@
 #include "../Http/Http_Server.hpp"
 #include "Vod_CatalogEntry.hpp"
 
-#include <vector>
+#include <map>
 
 namespace Vod
 {
@@ -26,7 +26,7 @@ namespace Vod
         NetFlux::SocketIOEvent::Notifier * mpNotifier;
         Http::Server * mpHttpServer;
 
-        std::vector <CatalogEntry *> mcatalogEntries;
+        std::map <uint32_t, CatalogEntry *> mcatalogEntries;
 
 
 

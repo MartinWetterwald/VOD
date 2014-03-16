@@ -26,9 +26,9 @@ namespace Http
         body << "ServerAddress: " << maddress << "\r\n";
         body << "ServerPort: " << mport << "\r\n";
 
-        for ( const auto & pentry : mpvodServer -> mcatalogEntries )
+        for ( const auto & entry : mpvodServer -> mcatalogEntries )
         {
-            body << * pentry;
+            body << * ( entry.second );
         }
         body << "\r\n";
 

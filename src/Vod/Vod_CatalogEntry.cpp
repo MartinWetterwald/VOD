@@ -76,6 +76,7 @@ namespace Vod
         CatalogImages * pimages = new CatalogImages;
         // Image files
         {
+            uint32_t imgCounter = 0;
             while ( customGetLine ( f, tmp ) )
             {
                 if ( ! parseImage ( tmp ) )
@@ -84,7 +85,7 @@ namespace Vod
                     return nullptr;
                 }
 
-                pimages -> push_back ( tmp );
+                pimages -> insert ( { ++imgCounter, tmp } );
             }
         }
 
