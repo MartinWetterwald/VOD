@@ -9,11 +9,11 @@ namespace Vod
     {
         class Server;
 
-        class Stream : public NetFlux::Tcp::ServerStream
+        class ControlConnection : public NetFlux::Tcp::ServerStream
         {
         public:
-            Stream ( int sock, const NetFlux::Net::InetAddress & address );
-            ~Stream ( );
+            ControlConnection ( int sock, const NetFlux::Net::InetAddress & address );
+            ~ControlConnection ( );
 
         protected:
             virtual bool readEventAction ( );
@@ -29,9 +29,9 @@ namespace Vod
             uint32_t mcursor;
 
         private:
-            Stream ( ) = delete;
-            Stream ( const Stream & ) = delete;
-            Stream & operator= ( const Stream & ) = delete;
+            ControlConnection ( ) = delete;
+            ControlConnection ( const ControlConnection & ) = delete;
+            ControlConnection & operator= ( const ControlConnection & ) = delete;
 
 
             friend class Server;

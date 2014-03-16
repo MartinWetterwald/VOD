@@ -1,4 +1,4 @@
-#include "Vod_TcpPull_Stream.hpp"
+#include "Vod_TcpPull_ControlConnection.hpp"
 #include "Vod_TcpPull_Server.hpp"
 
 #include <iostream>
@@ -7,13 +7,13 @@
 namespace Vod {
 namespace TcpPull
 {
-    Stream::Stream ( int sock, const NetFlux::Net::InetAddress & address )
+    ControlConnection::ControlConnection ( int sock, const NetFlux::Net::InetAddress & address )
         : NetFlux::Tcp::ServerStream ( sock, address ), mpserver ( nullptr ), mcursor ( 0 )
     {
         std::cout << * this << " : connection established" << std::endl;
     }
 
-    Stream::~Stream ( )
+    ControlConnection::~ControlConnection ( )
     {
         if ( mpserver )
         {
@@ -21,38 +21,38 @@ namespace TcpPull
         }
     }
 
-    bool Stream::writeEventAction ( )
+    bool ControlConnection::writeEventAction ( )
     {
         return true;
     }
 
-    bool Stream::exceptEventAction ( )
+    bool ControlConnection::exceptEventAction ( )
     {
         std::cout << * this << " : unexpected exception -> killed" << std::endl;
         delete this;
         return false;
     }
 
-    bool Stream::timeoutEventAction ( )
+    bool ControlConnection::timeoutEventAction ( )
     {
         std::cout << * this << " : hasn't talked for a long time -> killed" << std::endl;
         delete this;
         return false;
     }
 
-    void Stream::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
+    void ControlConnection::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
     {
         event.setRead ( );
         event.setTimeout ( 5000000 );
     }
 
-    bool Stream::readEventAction ( )
+    bool ControlConnection::readEventAction ( )
     {
         std::cout << "Coucou" << std::endl;
         return true;
     }
 
-    void Stream::toString ( std::ostream & os ) const
+    void ControlConnection::toString ( std::ostream & os ) const
     {
         os << "TcpPull socket ";
         NetFlux::Tcp::ServerStream::toString ( os );

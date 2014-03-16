@@ -15,7 +15,7 @@ namespace TcpPull
 
     bool Server::readEventAction ( )
     {
-        Stream * stream = accept <Stream> ( );
+        ControlConnection * stream = accept <ControlConnection> ( );
         if ( stream )
         {
             stream -> mpserver = this;

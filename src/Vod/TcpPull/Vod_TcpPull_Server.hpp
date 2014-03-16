@@ -4,7 +4,7 @@
 #include <Tcp/Tcp_Server.hpp>
 
 #include "../Vod_Server.hpp"
-#include "Vod_TcpPull_Stream.hpp"
+#include "Vod_TcpPull_ControlConnection.hpp"
 
 namespace Vod
 {
@@ -26,14 +26,14 @@ namespace Vod
 
 
         private:
-            std::unordered_set <Stream *> mstreams;
+            std::unordered_set <ControlConnection *> mstreams;
             Vod::Server * mpvodServer;
 
             Server ( const Server & ) = delete;
             Server & operator= ( const Server & ) = delete;
 
             friend class Vod::Server;
-            friend class Stream;
+            friend class ControlConnection;
         };
     }
 }
