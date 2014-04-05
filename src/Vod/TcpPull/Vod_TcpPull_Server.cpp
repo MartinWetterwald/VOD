@@ -9,6 +9,7 @@ namespace TcpPull
     {
         for ( const auto & pstream : mstreams )
         {
+            pstream -> mpserver = nullptr;
             delete pstream;
         }
     }
