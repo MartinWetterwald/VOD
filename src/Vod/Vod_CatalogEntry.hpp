@@ -12,6 +12,7 @@ namespace Vod
         enum Protocol { TCP_PULL, TCP_PUSH, UDP_PULL, UDP_PUSH };
         enum Type { BMP, JPEG };
 
+        CatalogEntry ( ) = default;
         static CatalogEntry * factory ( const std::string & path );
         virtual ~CatalogEntry ( );
 
@@ -25,15 +26,6 @@ namespace Vod
 
     protected:
         typedef std::map <uint32_t, std::string> CatalogImages;
-        CatalogEntry (
-                uint32_t id,
-                const std::string & name,
-                Type type,
-                const std::string & addr,
-                uint16_t port,
-                Protocol proto,
-                uint16_t ips,
-                CatalogImages * pimages );
 
         uint32_t mid;
         std::string mname;
@@ -48,10 +40,30 @@ namespace Vod
         std::string mstr;
 
     private:
+        inline void fill (
+            uint32_t id,
+            const std::string & name,
+            Type type,
+            const std::string & addr,
+            uint16_t port,
+            Protocol proto,
+            uint16_t ips,
+            CatalogImages * pimages )
+        {
+            mid = id;
+            mname = name;
+            mtype = type;
+            maddr = addr;
+            mport = port;
+            mproto = proto;
+            mips = ips;
+            mpimages = pimages;
+            generateString ( );
+        }
+
         void generateString ( );
         static bool parseImage ( std::string & path );
 
-        CatalogEntry ( ) = delete;
         CatalogEntry ( const CatalogEntry & ) = delete;
         CatalogEntry & operator= ( const CatalogEntry & ) = delete;
 

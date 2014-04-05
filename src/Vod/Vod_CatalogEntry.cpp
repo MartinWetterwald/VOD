@@ -1,6 +1,9 @@
 #include "Vod_CatalogEntry.hpp"
-#include "Vod_parsingUtils.hpp"
+
 #include <iostream>
+
+#include "Vod_parsingUtils.hpp"
+#include "TcpPull/Vod_TcpPull_Server.hpp"
 
 namespace Vod
 {
@@ -89,7 +92,21 @@ namespace Vod
             }
         }
 
-        return new CatalogEntry (
+        CatalogEntry * catalogEntry = nullptr;
+
+        switch ( stream_protocol )
+        {
+            case TCP_PULL:
+                catalogEntry = new TcpPull::Server;
+                break;
+
+            case TCP_PUSH:
+            case UDP_PULL:
+            case UDP_PUSH:
+                catalogEntry = new CatalogEntry;
+        }
+
+        catalogEntry -> fill (
             stream_id,
             stream_name,
             stream_type,
@@ -98,6 +115,8 @@ namespace Vod
             stream_protocol,
             stream_ips,
             pimages );
+
+        return catalogEntry;
     }
 
     CatalogEntry::~CatalogEntry ( )
@@ -188,27 +207,6 @@ namespace Vod
                 str = "JPEG";
                 return;
         }
-    }
-
-    CatalogEntry::CatalogEntry (
-            uint32_t id,
-            const std::string & name,
-            Type type,
-            const std::string & addr,
-            uint16_t port,
-            Protocol proto,
-            uint16_t ips,
-            CatalogImages * pimages ) :
-        mid ( id ),
-        mname ( name ),
-        mtype ( type ),
-        maddr ( addr ),
-        mport ( port ),
-        mproto ( proto ),
-        mips ( ips ),
-        mpimages ( pimages )
-    {
-        generateString ( );
     }
 
     void CatalogEntry::generateString ( )

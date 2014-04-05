@@ -2,18 +2,19 @@
 #define _VOD_TCPPULL_SERVER_HPP_
 
 #include <Tcp/Tcp_Server.hpp>
+#include <unordered_set>
 
-#include "../Vod_Server.hpp"
+#include "../Vod_CatalogEntry.hpp"
 #include "Vod_TcpPull_ControlConnection.hpp"
 
 namespace Vod
 {
     namespace TcpPull
     {
-        class Server : public NetFlux::Tcp::Server
+        class Server : public NetFlux::Tcp::Server, public CatalogEntry
         {
         public:
-            Server ( Vod::Server * server );
+            Server ( ) = default;
             virtual ~Server ( );
 
 
@@ -27,12 +28,10 @@ namespace Vod
 
         private:
             std::unordered_set <ControlConnection *> mstreams;
-            Vod::Server * mpvodServer;
 
             Server ( const Server & ) = delete;
             Server & operator= ( const Server & ) = delete;
 
-            friend class Vod::Server;
             friend class ControlConnection;
         };
     }

@@ -3,8 +3,6 @@
 namespace Vod {
 namespace TcpPull
 {
-    Server::Server ( Vod::Server * server ) : mpvodServer ( server ) { }
-
     Server::~Server ( )
     {
         for ( const auto & pstream : mstreams )
