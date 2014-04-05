@@ -17,6 +17,7 @@ namespace Vod
             Server ( ) = default;
             virtual ~Server ( );
 
+            void toString ( std::ostream & os ) const;
             bool start ( );
 
         protected:

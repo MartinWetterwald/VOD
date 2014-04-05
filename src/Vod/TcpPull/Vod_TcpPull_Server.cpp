@@ -14,14 +14,21 @@ namespace TcpPull
         }
     }
 
+    void Server::toString ( std::ostream & os ) const
+    {
+        os << "TcpPull Server (" << mname << ")";
+    }
+
     bool Server::start ( )
     {
         if ( listen ( CatalogEntry::mport ) )
         {
             mpvodServer -> mpNotifier -> subscribe ( this );
-            std::cout << "TcpPull Server listening on "
-                << * ( static_cast <NetFlux::Tcp::Server *> ( this ) )
-                << std::endl;
+
+            std::cout << "TcpPull Server listening on ";
+            NetFlux::Tcp::Server::toString ( std::cout );
+            std::cout << std::endl;
+
             return true;
         }
 
