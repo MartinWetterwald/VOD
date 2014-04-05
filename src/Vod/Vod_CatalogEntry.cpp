@@ -118,12 +118,6 @@ namespace Vod
             pimages,
             server );
 
-        if ( ! catalogEntry -> start ( ) )
-        {
-            delete catalogEntry;
-            return nullptr;
-        }
-
         return catalogEntry;
     }
 

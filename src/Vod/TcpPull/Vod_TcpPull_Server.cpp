@@ -1,6 +1,8 @@
 #include "Vod_TcpPull_Server.hpp"
 #include "../Vod_Server.hpp"
 
+#include <iostream>
+
 namespace Vod {
 namespace TcpPull
 {
@@ -17,6 +19,9 @@ namespace TcpPull
         if ( listen ( CatalogEntry::mport ) )
         {
             mpvodServer -> mpNotifier -> subscribe ( this );
+            std::cout << "TcpPull Server listening on "
+                << * ( static_cast <NetFlux::Tcp::Server *> ( this ) )
+                << std::endl;
             return true;
         }
 

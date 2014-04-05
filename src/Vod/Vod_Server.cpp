@@ -28,6 +28,15 @@ namespace Vod
             return false;
         }
 
+        for ( const auto & pcatalogEntry : mcatalogEntries )
+        {
+            if ( ! pcatalogEntry.second -> start ( ) )
+            {
+                std::cerr << "Stream listen failed." << std::endl;
+                return false;
+            }
+        }
+
         mpHttpServer -> generateCatalog ( );
 
         if ( ! mpHttpServer -> listen ( ) )
