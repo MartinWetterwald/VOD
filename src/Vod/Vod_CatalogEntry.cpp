@@ -126,6 +126,11 @@ namespace Vod
         delete mpimages;
     }
 
+    void CatalogEntry::toTitleString ( std::ostream & os ) const
+    {
+         os << mid << " ; " << mname;
+    }
+
     void CatalogEntry::toCatalogString ( std::ostream & os ) const
     {
         os << mstr;

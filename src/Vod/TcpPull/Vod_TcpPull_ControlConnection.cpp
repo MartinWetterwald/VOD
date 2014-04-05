@@ -8,10 +8,7 @@ namespace Vod {
 namespace TcpPull
 {
     ControlConnection::ControlConnection ( int sock, const NetFlux::Net::InetAddress & address )
-        : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 )
-    {
-        std::cout << * this << " : connection established" << std::endl;
-    }
+        : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 ) { }
 
     ControlConnection::~ControlConnection ( )
     {
@@ -53,7 +50,9 @@ namespace TcpPull
 
     void ControlConnection::toString ( std::ostream & os ) const
     {
-        os << "TcpPull socket ";
+        os << "TcpPull socket (";
+        mpserver -> CatalogEntry::toTitleString ( os );
+        os << ") ";
         NetFlux::Tcp::ServerStream::toString ( os );
     }
 } }

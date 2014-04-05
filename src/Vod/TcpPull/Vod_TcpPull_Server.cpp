@@ -16,7 +16,9 @@ namespace TcpPull
 
     void Server::toTitleString ( std::ostream & os ) const
     {
-        os << "TcpPull Server (" << mid << " ; " << mname << ")";
+        os << "TcpPull Server (";
+        CatalogEntry::toTitleString ( os );
+        os << ")";
     }
 
     bool Server::start ( )
@@ -43,6 +45,9 @@ namespace TcpPull
         if ( stream )
         {
             stream -> mpserver = this;
+
+            std::cout << * stream << " : connection established" << std::endl;
+
             mstreams.insert ( stream );
             notifier -> subscribe ( stream );
         }
