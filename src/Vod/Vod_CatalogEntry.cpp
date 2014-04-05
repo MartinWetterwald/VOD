@@ -126,7 +126,7 @@ namespace Vod
         delete mpimages;
     }
 
-    void CatalogEntry::toString ( std::ostream & os ) const
+    void CatalogEntry::toCatalogString ( std::ostream & os ) const
     {
         os << mstr;
     }
@@ -258,6 +258,6 @@ namespace Vod
 
 std::ostream & operator<< ( std::ostream & os, const Vod::CatalogEntry & catalogEntry )
 {
-    catalogEntry.toString ( os );
+    catalogEntry.toTitleString ( os );
     return os;
 }

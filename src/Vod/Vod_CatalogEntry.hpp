@@ -19,7 +19,9 @@ namespace Vod
         virtual ~CatalogEntry ( );
 
         virtual bool start ( ) = 0;
-        void toString ( std::ostream & os ) const;
+        virtual void toTitleString ( std::ostream & os ) const = 0;
+
+        void toCatalogString ( std::ostream & os ) const;
 
         static void protocolToString ( Protocol proto, std::string & str );
         static bool stringToProtocol ( const std::string & str, Protocol & proto );

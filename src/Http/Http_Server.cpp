@@ -28,7 +28,7 @@ namespace Http
 
         for ( const auto & entry : mpvodServer -> mcatalogEntries )
         {
-            body << * ( entry.second );
+            ( entry.second ) -> toCatalogString ( body );
         }
         body << "\r\n";
 
