@@ -17,6 +17,7 @@ namespace Vod
             Server ( ) = default;
             virtual ~Server ( );
 
+            bool start ( );
 
         protected:
             virtual bool readEventAction ( );

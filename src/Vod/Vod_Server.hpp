@@ -8,6 +8,11 @@
 
 namespace Vod
 {
+    namespace TcpPull
+    {
+        class Server;
+    }
+
     class Server
     {
     public:
@@ -31,6 +36,8 @@ namespace Vod
 
 
         friend class Http::Server;
+
+        friend class TcpPull::Server;
     };
 }
 

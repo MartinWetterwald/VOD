@@ -72,7 +72,7 @@ namespace Vod
             while ( customGetLine ( f, tmp ) )
             {
                 std::cout << "Parsing stream file " << tmp << "..." << std::endl;
-                CatalogEntry * pcatalogEntry = CatalogEntry::factory ( tmp );
+                CatalogEntry * pcatalogEntry = CatalogEntry::factory ( tmp, this );
                 if ( pcatalogEntry == nullptr )
                 {
                     return false;

@@ -3,11 +3,12 @@
 #include <iostream>
 
 #include "Vod_parsingUtils.hpp"
+#include "Vod_Server.hpp"
 #include "TcpPull/Vod_TcpPull_Server.hpp"
 
 namespace Vod
 {
-    CatalogEntry * CatalogEntry::factory ( const std::string & path )
+    CatalogEntry * CatalogEntry::factory ( const std::string & path, Server * server )
     {
         std::ifstream f ( "data/" + path );
 
@@ -103,7 +104,7 @@ namespace Vod
             case TCP_PUSH:
             case UDP_PULL:
             case UDP_PUSH:
-                catalogEntry = new CatalogEntry;
+                return nullptr;
         }
 
         catalogEntry -> fill (
@@ -114,7 +115,14 @@ namespace Vod
             stream_port,
             stream_protocol,
             stream_ips,
-            pimages );
+            pimages,
+            server );
+
+        if ( ! catalogEntry -> start ( ) )
+        {
+            delete catalogEntry;
+            return nullptr;
+        }
 
         return catalogEntry;
     }

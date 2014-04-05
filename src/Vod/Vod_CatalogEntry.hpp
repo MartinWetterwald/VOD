@@ -6,6 +6,8 @@
 
 namespace Vod
 {
+    class Server;
+
     class CatalogEntry
     {
     public:
@@ -13,9 +15,10 @@ namespace Vod
         enum Type { BMP, JPEG };
 
         CatalogEntry ( ) = default;
-        static CatalogEntry * factory ( const std::string & path );
+        static CatalogEntry * factory ( const std::string & path, Server * server );
         virtual ~CatalogEntry ( );
 
+        virtual bool start ( ) = 0;
         void toString ( std::ostream & os ) const;
 
         static void protocolToString ( Protocol proto, std::string & str );
@@ -35,6 +38,7 @@ namespace Vod
         Protocol mproto;
         uint16_t mips;
 
+        Server * mpvodServer;
         CatalogImages * mpimages;
 
         std::string mstr;
@@ -48,7 +52,8 @@ namespace Vod
             uint16_t port,
             Protocol proto,
             uint16_t ips,
-            CatalogImages * pimages )
+            CatalogImages * pimages,
+            Server * pserver )
         {
             mid = id;
             mname = name;
@@ -58,6 +63,7 @@ namespace Vod
             mproto = proto;
             mips = ips;
             mpimages = pimages;
+            mpvodServer = pserver;
             generateString ( );
         }
 

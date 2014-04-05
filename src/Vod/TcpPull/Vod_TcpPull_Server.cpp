@@ -1,4 +1,5 @@
 #include "Vod_TcpPull_Server.hpp"
+#include "../Vod_Server.hpp"
 
 namespace Vod {
 namespace TcpPull
@@ -9,6 +10,17 @@ namespace TcpPull
         {
             delete pstream;
         }
+    }
+
+    bool Server::start ( )
+    {
+        if ( listen ( CatalogEntry::mport ) )
+        {
+            mpvodServer -> mpNotifier -> subscribe ( this );
+            return true;
+        }
+
+        return false;
     }
 
     bool Server::readEventAction ( )
