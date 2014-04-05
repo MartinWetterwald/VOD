@@ -41,7 +41,7 @@ namespace Http
     }
 
 
-    void Server::readEventAction ( )
+    bool Server::readEventAction ( )
     {
         CatalogRequest * request = accept <CatalogRequest> ( );
         if ( request )
@@ -50,10 +50,12 @@ namespace Http
             mrequests.insert ( request );
             notifier -> subscribe ( request );
         }
+
+        return true;
     }
 
-    void Server::writeEventAction ( ) { }
-    void Server::exceptEventAction ( ) { }
+    bool Server::writeEventAction ( ) { return true; }
+    bool Server::exceptEventAction ( ) { return true; }
 
     void Server::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
     {

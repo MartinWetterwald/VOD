@@ -20,12 +20,12 @@ namespace Http
         }
     }
 
-    void CatalogRequest::writeEventAction ( )
+    bool CatalogRequest::writeEventAction ( )
     {
         if ( reading )
         {
             delete this;
-            return;
+            return false;
         }
 
         const char * data = mpserver -> mcatalog.c_str ( );
@@ -37,7 +37,7 @@ namespace Http
         {
             std::cout << * this << " : send failed -> killed" << std::endl;
             delete this;
-            return;
+            return false;
         }
 
         mcursor += sent;
@@ -46,18 +46,36 @@ namespace Http
         {
             std::cout << * this << " : catalog sent (" << length << " bytes) -> closing connection" << std::endl;
             delete this;
+            return false;
         }
+
+        return true;
     }
 
-    void CatalogRequest::exceptEventAction ( )
+    bool CatalogRequest::exceptEventAction ( )
     {
         std::cout << * this << " : unexpected exception -> killed" << std::endl;
         delete this;
+        return false;
     }
 
-    void CatalogRequest::requestEventAction ( )
+    bool CatalogRequest::timeoutEventAction ( )
+    {
+        std::cout << * this << " : hasn't talked for a long time -> killed" << std::endl;
+        delete this;
+        return false;
+    }
+
+    void CatalogRequest::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
+    {
+        Vod::Request::chooseSubscription ( event );
+        event.setTimeout ( 5000000 );
+    }
+
+    bool CatalogRequest::requestEventAction ( )
     {
         reading = false;
+        return true;
     }
 
     void CatalogRequest::toString ( std::ostream & os ) const

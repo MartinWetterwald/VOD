@@ -11,13 +11,13 @@ namespace Vod
 
     Request::~Request ( ) { }
 
-    void Request::readEventAction ( )
+    bool Request::readEventAction ( )
     {
         if ( ! reading )
         {
             std::cout << * this << " : talked during response -> killed" << std::endl;
             delete this;
-            return;
+            return false;
         }
 
         char buffer [ 1024 ];
@@ -27,14 +27,14 @@ namespace Vod
         {
             std::cout << * this << " : receive error -> killed" << std::endl;
             delete this;
-            return;
+            return false;
         }
 
         if ( ret == 0 )
         {
             std::cout << * this << " : foreign host closed connection" << std::endl;
             delete this;
-            return;
+            return false;
         }
 
         std::cout << * this << " : got " << ret << " bytes from foreign host" << std::endl;
@@ -59,6 +59,8 @@ namespace Vod
                 endRequest = 0;
             }
         }
+
+        return true;
     }
 
     void Request::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
