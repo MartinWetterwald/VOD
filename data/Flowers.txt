@@ -3,7 +3,7 @@ Name: Flowers
 Type: JPEG
 Address: 127.0.0.1
 Port: 8101
-Protocol: TCP_PUSH
+Protocol: TCP_PULL
 IPS: 5
 .\Flowers\1.jpg
 .\Flowers\2.jpg

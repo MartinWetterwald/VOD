@@ -3,7 +3,7 @@ Name: Drawing
 Type: JPEG
 Address: 127.0.0.1
 Port: 8102
-Protocol: UDP_PULL
+Protocol: TCP_PULL
 IPS: 25
 .\Drawing\k_00001.jpg
 .\Drawing\k_00002.jpg
