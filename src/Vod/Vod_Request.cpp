@@ -11,6 +11,54 @@ namespace Vod
 
     Request::~Request ( ) { }
 
+    bool Request::readRequest ( std::string & request )
+    {
+        if ( endRequest != 4 )
+        {
+            return false;
+        }
+
+        for ( ; ; )
+        {
+            unsigned int dataSize = mreadBuffer.pageSize ( );
+
+            if ( dataSize == 0 )
+            {
+                break;
+            }
+
+            const char * data = ( const char * ) mreadBuffer.pageContent ( );
+            uint8_t end = 0;
+
+            unsigned int i = 0;
+            for ( const char * c = data ; i < dataSize ; ++i, ++c )
+            {
+                request += * c;
+
+                if ( end % 2 == 0 && * c == '\r' )
+                {
+                    ++end;
+                }
+                else if ( end % 2 == 1 && * c == '\n' )
+                {
+                    ++end;
+                    if ( end == 4 )
+                    {
+                        mreadBuffer.acquit ( i + 1 );
+                        return true;
+                    }
+                }
+                else
+                {
+                    end = 0;
+                }
+            }
+            mreadBuffer.acquit ( dataSize );
+        }
+
+        return false;
+    }
+
     bool Request::readEventAction ( )
     {
         if ( ! reading )
@@ -20,8 +68,8 @@ namespace Vod
             return false;
         }
 
-        char buffer [ 1024 ];
-        ssize_t ret = recv ( buffer, 1024 );
+        char buffer [ PAGESIZE ];
+        ssize_t ret = recv ( buffer, PAGESIZE );
 
         if ( ret == -1 )
         {
@@ -38,6 +86,8 @@ namespace Vod
         }
 
         std::cout << * this << " : got " << ret << " bytes from foreign host" << std::endl;
+
+        mreadBuffer.append ( buffer, ( unsigned int ) ret );
 
         ssize_t pos = 0;
         for ( char * cursor = buffer ; pos < ret ; ++cursor, ++pos )

@@ -2,6 +2,7 @@
 #define _VOD_REQUEST_HPP_
 
 #include <Tcp/Tcp_ServerStream.hpp>
+#include <Utils/Utils_Buffer.hpp>
 
 namespace Vod
 {
@@ -10,6 +11,8 @@ namespace Vod
     public:
         Request ( int sock, const NetFlux::Net::InetAddress & address );
         virtual ~Request ( );
+
+        bool readRequest ( std::string & request );
 
         virtual void toString ( std::ostream & os ) const;
 
@@ -22,6 +25,8 @@ namespace Vod
 
         bool reading;
 
+		static const unsigned int PAGESIZE = 1024;
+        NetFlux::Utils::Buffer < PAGESIZE > mreadBuffer;
 
     private:
         Request ( ) = delete;

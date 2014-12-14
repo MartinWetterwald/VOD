@@ -20,6 +20,8 @@ namespace TcpPull
 
     bool ControlConnection::requestEventAction ( )
     {
+        std::string req;
+        readRequest ( req );
         return true;
     }
 
