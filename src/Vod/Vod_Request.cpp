@@ -101,7 +101,11 @@ namespace Vod
                 endRequest++;
                 if ( endRequest == 4 )
                 {
-                    requestEventAction ( );
+                    if ( ! requestEventAction ( ) )
+                    {
+                        return false;
+                    }
+                    endRequest = 0;
                 }
             }
             else
