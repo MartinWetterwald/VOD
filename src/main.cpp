@@ -1,4 +1,5 @@
 #include "Vod/Vod_Server.hpp"
+#include <cstdlib>
 
 static Vod::Server * vodServer = nullptr;
 
