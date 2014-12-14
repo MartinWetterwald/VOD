@@ -2,6 +2,7 @@
 #define _VOD_TCPPULL_STREAM_HPP_
 
 #include "../Vod_Request.hpp"
+#include "../Vod_TcpClient.hpp"
 
 namespace Vod
 {
@@ -27,6 +28,9 @@ namespace Vod
 
             Server * mpserver;
             uint32_t mcursor;
+
+            bool connected;
+            TcpClient streamSocket;
 
         private:
             ControlConnection ( ) = delete;

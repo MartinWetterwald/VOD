@@ -1,14 +1,16 @@
 #include "Vod_TcpPull_ControlConnection.hpp"
 #include "Vod_TcpPull_Server.hpp"
+#include "../Vod_parsingUtils.hpp"
 
 #include <iostream>
 #include <cstring>
+#include <sstream>
 
 namespace Vod {
 namespace TcpPull
 {
     ControlConnection::ControlConnection ( int sock, const NetFlux::Net::InetAddress & address )
-        : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 ) { }
+        : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 ), connected ( false ) { }
 
     ControlConnection::~ControlConnection ( )
     {
@@ -21,7 +23,91 @@ namespace TcpPull
     bool ControlConnection::requestEventAction ( )
     {
         std::string req;
-        readRequest ( req );
+        if ( ! readRequest ( req ) )
+        {
+            std::cout << * this << " : unexpected reading failure" << std::endl;
+            return false;
+        }
+        std::cout << req << std::endl;
+        std::istringstream iss ( req );
+
+        std::string word;
+        int32_t id;
+
+        if ( ! connected )
+        {
+            iss >> word;
+            if ( word != "GET" )
+            {
+                std::cout << * this << " : Invalid method keyword from client -> killed" << std::endl;
+                delete this;
+                return false;
+            }
+
+            iss >> id;
+            if ( id < 0 || ( uint32_t ) id != mpserver -> mid )
+            {
+                std::cout << * this << " : Invalid stream ID from client -> killed" << std::endl;
+                std::cout << " Got: '" << id << "' ; Expected: '" << "'" << std::endl;
+                delete this;
+                return false;
+            }
+
+            iss >> word;
+            if ( word != "LISTEN_PORT" )
+            {
+                std::cout << * this << " : Invalid listen_port keyword from client -> killed" << std::endl;
+                delete this;
+                return false;
+            }
+
+            uint16_t port;
+            iss >> port;
+            if ( port < VOD_MIN_PORT || port > VOD_MAX_PORT )
+            {
+                std::cout << * this << " : Invalid port (out of range) from client -> killed" << std::endl;
+                delete this;
+                return false;
+            }
+
+            iss >> word;
+
+            if ( ! iss.eof ( ) )
+            {
+                std::cout << * this << " : Invalid word after connection request from client -> killed" << std::endl;
+                delete this;
+                return false;
+            }
+
+            if ( ! streamSocket.connectTo ( mip , port ) )
+            {
+                std::cout << * this << " : Data connection to client failed -> killed" << std::endl;
+                delete this;
+                return false;
+            }
+
+            mpserver -> notifier -> subscribe ( & streamSocket );
+            connected = true;
+            return true;
+        }
+
+        // Already connected
+        iss >> word;
+        if ( word == "END" )
+        {
+            std::cout << * this << " : Client wants to exit -> killed" << std::endl;
+            delete this;
+            return false;
+        }
+        if ( word != "GET" )
+        {
+            std::cout << * this << " : Invalid request from client -> killed" << std::endl;
+            delete this;
+            return false;
+        }
+
+        iss >> id;
+        streamSocket.writing = true;
         return true;
     }
 
