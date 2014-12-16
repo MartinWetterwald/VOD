@@ -86,7 +86,7 @@ namespace TcpPull
                 return false;
             }
 
-            mpserver -> notifier -> subscribe ( & streamSocket );
+            notifier -> subscribe ( & streamSocket );
             connected = true;
             return true;
         }
