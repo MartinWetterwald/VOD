@@ -27,10 +27,16 @@ namespace Vod
             void toString ( std::ostream & os ) const;
 
             Server * mpserver;
-            uint32_t mcursor;
 
             bool connected;
             TcpClient streamSocket;
+            bool streamSocketWriting;
+
+            bool streamSocketReadEventAction ( TcpClient * socket );
+            bool streamSocketWriteEventAction ( TcpClient * socket );
+            bool streamSocketExceptEventAction ( TcpClient * socket );
+            bool streamSocketTimeoutEventAction ( TcpClient * socket );
+            void streamSocketChooseSubscription ( TcpClient * socket, NetFlux::SocketIOEvent::Event & event);
 
         private:
             ControlConnection ( ) = delete;

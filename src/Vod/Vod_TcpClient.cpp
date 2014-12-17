@@ -1,9 +1,8 @@
 #include "Vod_TcpClient.hpp"
-#include <iostream>
 
 namespace Vod
 {
-    TcpClient::TcpClient ( ) : writing ( false )
+    TcpClient::TcpClient ( )
     {
     }
 
@@ -13,33 +12,26 @@ namespace Vod
 
     bool TcpClient::readEventAction ( )
     {
-        std::cout << "Read Event" << std::endl;
-        return true;
+        return readEventMapping ( this );
     }
 
     bool TcpClient::writeEventAction ( )
     {
-        writing = false;
-        return true;
+        return writeEventMapping ( this );
     }
 
     bool TcpClient::exceptEventAction ( )
     {
-        std::cout << "Except Event" << std::endl;
-        return true;
+        return exceptEventMapping ( this );
     }
 
     bool TcpClient::timeoutEventAction ( )
     {
-        std::cout << "Timeout Event" << std::endl;
-        return true;
+        return timeoutEventMapping ( this );
     }
 
     void TcpClient::chooseSubscription ( NetFlux::SocketIOEvent::Event & e )
     {
-        if ( writing )
-        {
-            e.setWrite ( );
-        }
+        chooseSubscriptionMapping ( this, e );
     }
 }

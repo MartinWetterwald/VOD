@@ -10,7 +10,15 @@ namespace Vod {
 namespace TcpPull
 {
     ControlConnection::ControlConnection ( int sock, const NetFlux::Net::InetAddress & address )
-        : Request ( sock, address ), mpserver ( nullptr ), mcursor ( 0 ), connected ( false ) { }
+        : Request ( sock, address ), mpserver ( nullptr ), connected ( false ),
+        streamSocketWriting ( false )
+    {
+        streamSocket.mapReadEvent ( this, & ControlConnection::streamSocketReadEventAction );
+        streamSocket.mapWriteEvent ( this, & ControlConnection::streamSocketWriteEventAction );
+        streamSocket.mapExceptEvent ( this, & ControlConnection::streamSocketExceptEventAction );
+        streamSocket.mapTimeoutEvent ( this, & ControlConnection::streamSocketTimeoutEventAction );
+        streamSocket.mapChooseSubscription ( this, & ControlConnection::streamSocketChooseSubscription );
+    }
 
     ControlConnection::~ControlConnection ( )
     {
@@ -107,14 +115,11 @@ namespace TcpPull
         }
 
         iss >> id;
-        streamSocket.writing = true;
+        streamSocketWriting = true;
         return true;
     }
 
-    bool ControlConnection::writeEventAction ( )
-    {
-        return true;
-    }
+    bool ControlConnection::writeEventAction ( ) { return true; }
 
     bool ControlConnection::exceptEventAction ( )
     {
@@ -133,8 +138,38 @@ namespace TcpPull
     void ControlConnection::chooseSubscription ( NetFlux::SocketIOEvent::Event & event )
     {
         event.setRead ( );
+        event.setExcept ( );
         event.setTimeout ( 5000000 );
     }
+
+    bool ControlConnection::streamSocketReadEventAction ( TcpClient * )
+    {
+        return true;
+    }
+
+    bool ControlConnection::streamSocketWriteEventAction ( TcpClient * )
+    {
+        return true;
+    }
+
+    bool ControlConnection::streamSocketExceptEventAction ( TcpClient * )
+    {
+        return true;
+    }
+
+    bool ControlConnection::streamSocketTimeoutEventAction ( TcpClient * )
+    {
+        return true;
+    }
+
+    void ControlConnection::streamSocketChooseSubscription ( TcpClient *, NetFlux::SocketIOEvent::Event & e )
+    {
+        if ( streamSocketWriting )
+        {
+            e.setWrite ( );
+        }
+    }
+
 
     void ControlConnection::toString ( std::ostream & os ) const
     {

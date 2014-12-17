@@ -18,7 +18,7 @@ namespace Vod
             inline void map
             (
                 CLASS1 * pobject,
-                void ( CLASS1::* pfunction ) ( CLASS2 * )
+                bool ( CLASS1::* pfunction ) ( CLASS2 * )
             )
             {
                 object = ( thiscall * ) pobject;
