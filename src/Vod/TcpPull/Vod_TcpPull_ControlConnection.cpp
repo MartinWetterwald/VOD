@@ -144,7 +144,9 @@ namespace TcpPull
 
     bool ControlConnection::streamSocketReadEventAction ( TcpClient * )
     {
-        return true;
+        std::cout << * this << " : Client has talked on the data connection -> killed" << std::endl;
+        delete this;
+        return false;
     }
 
     bool ControlConnection::streamSocketWriteEventAction ( TcpClient * )
@@ -154,16 +156,18 @@ namespace TcpPull
 
     bool ControlConnection::streamSocketExceptEventAction ( TcpClient * )
     {
-        return true;
+        std::cout << * this << " : unexpected exception on the data connection -> killed" << std::endl;
+        delete this;
+        return false;
     }
 
-    bool ControlConnection::streamSocketTimeoutEventAction ( TcpClient * )
-    {
-        return true;
-    }
+    bool ControlConnection::streamSocketTimeoutEventAction ( TcpClient * ) { return true; }
 
     void ControlConnection::streamSocketChooseSubscription ( TcpClient *, NetFlux::SocketIOEvent::Event & e )
     {
+        e.setRead ( );
+        e.setExcept ( );
+
         if ( streamSocketWriting )
         {
             e.setWrite ( );
