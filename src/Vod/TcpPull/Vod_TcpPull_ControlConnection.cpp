@@ -1,6 +1,7 @@
 #include "Vod_TcpPull_ControlConnection.hpp"
 #include "Vod_TcpPull_Server.hpp"
 #include "../Vod_parsingUtils.hpp"
+#include "../Vod_CatalogEntry.hpp"
 
 #include <iostream>
 #include <cstring>
@@ -10,7 +11,7 @@ namespace Vod {
 namespace TcpPull
 {
     ControlConnection::ControlConnection ( int sock, const NetFlux::Net::InetAddress & address )
-        : Request ( sock, address ), mpserver ( nullptr ), connected ( false ),
+        : Request ( sock, address ), mpserver ( nullptr ), currentFrame ( 1 ), connected ( false ),
         streamSocketWriting ( false )
     {
         streamSocket.mapReadEvent ( this, & ControlConnection::streamSocketReadEventAction );
@@ -115,7 +116,30 @@ namespace TcpPull
         }
 
         iss >> id;
+        std::cout << * this << " : Requested frame: " << id << std::endl;
+
+        if ( id == -1 )
+        {
+            id = ( int32_t ) currentFrame;
+        }
+        else if ( id <= 0 )
+        {
+            std::cout << * this << " : Invalid frame number -> killed" << std::endl;
+            delete this;
+            return false;
+        }
+
+        CatalogEntry::CatalogImages::const_iterator it = mpserver -> mpimages -> find ( ( uint32_t ) id );
+        if ( it == mpserver -> mpimages -> end ( ) )
+        {
+            std::cout << * this << " : Frame " << id << " not found -> killed" << std::endl;
+            delete this;
+            return false;
+        }
+
+        std::cout << * this << " : Frame to be sent: " << id << std::endl;
         streamSocketWriting = true;
+
         return true;
     }
 

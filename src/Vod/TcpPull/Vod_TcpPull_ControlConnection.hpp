@@ -3,6 +3,7 @@
 
 #include "../Vod_Request.hpp"
 #include "../Vod_TcpClient.hpp"
+#include "../Vod_Buffer.hpp"
 
 namespace Vod
 {
@@ -27,6 +28,9 @@ namespace Vod
             void toString ( std::ostream & os ) const;
 
             Server * mpserver;
+
+            Buffer buffer;
+            unsigned int currentFrame;
 
             bool connected;
             TcpClient streamSocket;

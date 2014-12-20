@@ -8,6 +8,11 @@ namespace Vod
 {
     class Server;
 
+    namespace TcpPull
+    {
+        class ControlConnection;
+    }
+
     class CatalogEntry
     {
     public:
@@ -77,6 +82,7 @@ namespace Vod
 
 
         friend class Server;
+        friend class TcpPull::ControlConnection;
     };
 }
 
