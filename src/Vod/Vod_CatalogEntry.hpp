@@ -36,6 +36,16 @@ namespace Vod
 
         bool loadFrame ( uint32_t frameId, Buffer & destBuf ) const;
 
+        inline uint64_t frameTotal ( ) const
+        {
+            if ( ! mpimages )
+            {
+                return 0;
+            }
+
+            return mpimages -> size ( );
+        }
+
 
     protected:
         typedef std::map <uint32_t, std::string> CatalogImages;
