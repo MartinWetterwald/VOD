@@ -13,7 +13,7 @@ namespace Vod
         delete [ ] mpdata;
     }
 
-    void Buffer::allocate ( unsigned int size, char * data )
+    void Buffer::allocate ( uint64_t size )
     {
         if ( mpdata )
         {
@@ -21,35 +21,36 @@ namespace Vod
         }
 
         mpdata = new char [ size ];
-        memcpy ( mpdata, data, size );
         msize = size;
     }
 
     void Buffer::deallocate ( )
     {
+        if ( ! mpdata )
+        {
+            return;
+        }
+
         delete [ ] mpdata;
+
+        mpdata = nullptr;
         msize = 0;
         mcursor = 0;
     }
 
-    bool Buffer::acquit ( unsigned int size )
+    bool Buffer::memcpy ( uint64_t pos, char * src, uint64_t size )
     {
-        if ( mcursor + size > msize )
+        if ( ! mpdata || pos + size > msize )
         {
             return false;
         }
 
-        mcursor += size;
-
-        if ( mcursor == size )
-        {
-            deallocate ( );
-        }
+        ::memcpy ( mpdata + pos, src, size );
 
         return true;
     }
 
-    char * Buffer::leftDataPointer ( unsigned int & sizeLeft )
+    char * Buffer::leftDataPointer ( uint64_t & sizeLeft )
     {
         if ( ! mpdata )
         {
