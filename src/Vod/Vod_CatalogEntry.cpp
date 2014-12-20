@@ -126,6 +126,18 @@ namespace Vod
         delete mpimages;
     }
 
+    bool CatalogEntry::loadFrame ( uint32_t frameId, Buffer & ) const
+    {
+        CatalogImages::const_iterator it = mpimages -> find ( frameId );
+
+        if ( it == mpimages -> end ( ) )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     void CatalogEntry::toTitleString ( std::ostream & os ) const
     {
          os << mid << " ; " << mname;

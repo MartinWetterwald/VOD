@@ -7,6 +7,7 @@
 namespace Vod
 {
     class Server;
+    class Buffer;
 
     namespace TcpPull
     {
@@ -32,6 +33,8 @@ namespace Vod
         static bool stringToProtocol ( const std::string & str, Protocol & proto );
         static void typeToString ( Type type, std::string & str );
         static bool stringToType ( const std::string & str, Type & type );
+
+        bool loadFrame ( uint32_t frameId, Buffer & destBuf ) const;
 
 
     protected:
@@ -82,7 +85,6 @@ namespace Vod
 
 
         friend class Server;
-        friend class TcpPull::ControlConnection;
     };
 }
 
