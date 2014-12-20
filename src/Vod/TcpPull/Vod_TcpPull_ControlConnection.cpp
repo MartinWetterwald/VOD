@@ -131,7 +131,7 @@ namespace TcpPull
 
         if ( ! mpserver -> loadFrame ( currentFrame, buffer ) )
         {
-            std::cout << * this << " : Frame " << id << " not found -> killed" << std::endl;
+            std::cout << * this << " : Unable to load frame " << currentFrame << " -> killed" << std::endl;
             delete this;
             return false;
         }
@@ -172,8 +172,33 @@ namespace TcpPull
         return false;
     }
 
-    bool ControlConnection::streamSocketWriteEventAction ( TcpClient * )
+    bool ControlConnection::streamSocketWriteEventAction ( TcpClient * streamSock )
     {
+        uint64_t sizeLeft;
+        char * data = buffer.leftDataPointer ( sizeLeft );
+        ssize_t sent = streamSock -> send ( data, sizeLeft );
+        if ( sent == INVALID )
+        {
+            std::cout << * this << " : Sending error on the data connection -> killed" << std::endl;
+            delete this;
+            return false;
+        }
+
+        buffer.acquit ( ( size_t ) sent );
+        if ( buffer.end ( ) )
+        {
+            buffer.deallocate ( );
+            streamSocketWriting = false;
+
+            if ( currentFrame == mpserver -> frameTotal ( ) )
+            {
+                currentFrame = 1;
+            }
+            else
+            {
+                ++currentFrame;
+            }
+        }
         return true;
     }
 
