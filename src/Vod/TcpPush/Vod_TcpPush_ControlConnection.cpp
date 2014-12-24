@@ -39,7 +39,7 @@ namespace TcpPush
         std::cout << req << std::endl;
         std::istringstream iss ( req );
 
-        std::string word;
+        std::string word, word2;
         int32_t id;
 
         if ( ! connected )
@@ -101,43 +101,39 @@ namespace TcpPush
 
         // Already connected
         iss >> word;
+        iss >> word2;
+        if ( ! iss.eof ( ) )
+        {
+            std::cout << * this << " : Invalid word after request from client -> killed" << std::endl;
+            delete this;
+            return false;
+        }
+
         if ( word == "END" )
         {
             std::cout << * this << " : Client wants to exit -> killed" << std::endl;
             delete this;
             return false;
         }
-        if ( word != "GET" )
+
+        if ( word != "START" && word != "PAUSE" )
         {
             std::cout << * this << " : Invalid request from client -> killed" << std::endl;
             delete this;
             return false;
         }
 
-        iss >> id;
-        std::cout << * this << " : Requested frame: " << id << std::endl;
+        std::cout << * this << " : Requested action: " << word << std::endl;
 
-        if ( id <= 0 && id != -1 )
+        if ( word == "START" )
         {
-            std::cout << * this << " : Invalid frame number -> killed" << std::endl;
-            delete this;
-            return false;
+            std::cout << * this << " : Frame to be sent: " << currentFrame << std::endl;
+            streamSocketWriting = true;
         }
-
-        if ( id != -1 )
+        else if ( word == "PAUSE" )
         {
-            currentFrame = ( uint32_t ) id;
+            streamSocketWriting = false;
         }
-
-        if ( ! mpserver -> loadFrame ( currentFrame, buffer ) )
-        {
-            std::cout << * this << " : Unable to load frame " << currentFrame << " -> killed" << std::endl;
-            delete this;
-            return false;
-        }
-
-        std::cout << * this << " : Frame to be sent: " << currentFrame << std::endl;
-        streamSocketWriting = true;
 
         return true;
     }
@@ -162,7 +158,7 @@ namespace TcpPush
     {
         event.setRead ( );
         event.setExcept ( );
-        event.setTimeout ( 5000000 );
+        event.setTimeout ( 100000000 );
     }
 
     bool ControlConnection::streamSocketReadEventAction ( TcpClient * )
@@ -174,6 +170,16 @@ namespace TcpPush
 
     bool ControlConnection::streamSocketWriteEventAction ( TcpClient * streamSock )
     {
+        if ( buffer.data ( ) == nullptr )
+        {
+            if ( ! mpserver -> loadFrame ( currentFrame, buffer ) )
+            {
+                std::cout << * this << " : Unable to load frame " << currentFrame << " -> killed" << std::endl;
+                delete this;
+                return false;
+            }
+        }
+
         uint64_t sizeLeft;
         char * data = buffer.leftDataPointer ( sizeLeft );
         ssize_t sent = streamSock -> send ( data, sizeLeft );
@@ -188,7 +194,6 @@ namespace TcpPush
         if ( buffer.end ( ) )
         {
             buffer.deallocate ( );
-            streamSocketWriting = false;
 
             if ( currentFrame == mpserver -> frameTotal ( ) )
             {
