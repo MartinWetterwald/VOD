@@ -5,6 +5,7 @@
 #include "Vod_parsingUtils.hpp"
 #include "Vod_Server.hpp"
 #include "TcpPull/Vod_TcpPull_Server.hpp"
+#include "TcpPush/Vod_TcpPush_Server.hpp"
 
 namespace Vod
 {
@@ -102,6 +103,9 @@ namespace Vod
                 break;
 
             case TCP_PUSH:
+                catalogEntry = new TcpPush::Server;
+                break;
+
             case UDP_PULL:
             case UDP_PUSH:
                 return nullptr;

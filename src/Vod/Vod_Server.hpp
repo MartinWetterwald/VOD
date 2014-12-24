@@ -8,10 +8,8 @@
 
 namespace Vod
 {
-    namespace TcpPull
-    {
-        class Server;
-    }
+    namespace TcpPull { class Server; }
+    namespace TcpPush { class Server; }
 
     class Server
     {
@@ -38,6 +36,7 @@ namespace Vod
         friend class Http::Server;
 
         friend class TcpPull::Server;
+        friend class TcpPush::Server;
     };
 }
 

@@ -9,11 +9,6 @@ namespace Vod
     class Server;
     class Buffer;
 
-    namespace TcpPull
-    {
-        class ControlConnection;
-    }
-
     class CatalogEntry
     {
     public:
