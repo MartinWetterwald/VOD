@@ -1,5 +1,5 @@
-#ifndef _CATALOG_REQUEST_HPP_
-#define _CATALOG_REQUEST_HPP_
+#ifndef CATALOG_REQUEST_HPP_
+#define CATALOG_REQUEST_HPP_
 
 #include "../Vod/Vod_Request.hpp"
 

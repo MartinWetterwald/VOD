@@ -1,5 +1,5 @@
-#ifndef _VOD_TCPPUSH_SERVER_HPP_
-#define _VOD_TCPPUSH_SERVER_HPP_
+#ifndef VOD_TCPPUSH_SERVER_HPP_
+#define VOD_TCPPUSH_SERVER_HPP_
 
 #include <Tcp/Tcp_Server.hpp>
 #include <unordered_set>

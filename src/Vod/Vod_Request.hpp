@@ -1,5 +1,5 @@
-#ifndef _VOD_REQUEST_HPP_
-#define _VOD_REQUEST_HPP_
+#ifndef VOD_REQUEST_HPP_
+#define VOD_REQUEST_HPP_
 
 #include <Tcp/Tcp_ServerStream.hpp>
 #include <Utils/Utils_Buffer.hpp>

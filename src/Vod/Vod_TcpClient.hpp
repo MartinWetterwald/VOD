@@ -1,5 +1,5 @@
-#ifndef _VOD_TCP_CLIENT_HPP_
-#define _VOD_TCP_CLIENT_HPP_
+#ifndef VOD_TCP_CLIENT_HPP_
+#define VOD_TCP_CLIENT_HPP_
 
 #include <Tcp/Tcp_Client.hpp>
 #include "Vod_NetEvents.hpp"

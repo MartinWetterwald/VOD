@@ -1,5 +1,5 @@
-#ifndef _VOD_PARSING_UTILS_HPP_
-#define _VOD_PARSING_UTILS_HPP_
+#ifndef VOD_PARSING_UTILS_HPP_
+#define VOD_PARSING_UTILS_HPP_
 
 #include <fstream>
 #include <sstream>

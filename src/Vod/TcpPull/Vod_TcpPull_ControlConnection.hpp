@@ -1,5 +1,5 @@
-#ifndef _VOD_TCPPULL_STREAM_HPP_
-#define _VOD_TCPPULL_STREAM_HPP_
+#ifndef VOD_TCPPULL_STREAM_HPP_
+#define VOD_TCPPULL_STREAM_HPP_
 
 #include "../Vod_Request.hpp"
 #include "../Vod_TcpClient.hpp"

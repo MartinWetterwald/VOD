@@ -1,5 +1,5 @@
-#ifndef _HTTP_SERVER_HPP_
-#define _HTTP_SERVER_HPP_
+#ifndef HTTP_SERVER_HPP_
+#define HTTP_SERVER_HPP_
 
 #include <Tcp/Tcp_Server.hpp>
 #include <unordered_set>

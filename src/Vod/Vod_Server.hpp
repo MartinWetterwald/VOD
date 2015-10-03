@@ -1,5 +1,5 @@
-#ifndef _VOD_SERVER_HPP_
-#define _VOD_SERVER_HPP_
+#ifndef VOD_SERVER_HPP_
+#define VOD_SERVER_HPP_
 
 #include "../Http/Http_Server.hpp"
 #include "Vod_CatalogEntry.hpp"

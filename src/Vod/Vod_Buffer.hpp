@@ -1,5 +1,5 @@
-#ifndef _VOD_BUFFER_HPP_
-#define _VOD_BUFFER_HPP_
+#ifndef VOD_BUFFER_HPP_
+#define VOD_BUFFER_HPP_
 
 #include <cstdint>
 

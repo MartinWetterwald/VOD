@@ -1,5 +1,5 @@
-#ifndef _VOD_NET_EVENTS_HPP_
-#define _VOD_NET_EVENTS_HPP_
+#ifndef VOD_NET_EVENTS_HPP_
+#define VOD_NET_EVENTS_HPP_
 
 #include <SocketIOEvent/SocketIOEvent_Event.hpp>
 

@@ -1,5 +1,5 @@
-#ifndef _VOD_CATALOG_ENTRY_HPP_
-#define _VOD_CATALOG_ENTRY_HPP_
+#ifndef VOD_CATALOG_ENTRY_HPP_
+#define VOD_CATALOG_ENTRY_HPP_
 
 #include <string>
 #include <map>
